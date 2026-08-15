@@ -1,0 +1,54 @@
+@startuml Diagrama_Comunicacion_CU05
+' Diagrama de comunicacion - CU-05 Registrar Empresa
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor "Administrador del Sistema" as ActorAdmin
+
+object "InterfazRegistroEmpresa" as Interfaz
+object "GestorRegistroEmpresa" as Gestor
+object "Administrador" as AdminEntidad
+object "Empresa" as Empresa
+
+ActorAdmin -- Interfaz
+Interfaz -- Gestor
+Gestor -- AdminEntidad
+Gestor -- Empresa
+
+note on link
+  1: iniciarRegistroEmpresa()
+  9: ingresarDatosEmpresa()
+  18: confirmarRegistro()
+end note
+
+note on link
+  2: validarCredenciales()
+  7: confirmarCredenciales()
+  8: refrescarInterfaz()
+  10: validarIngresos()
+  11: validarDatosCompletos()
+  16: confirmarEmpresaNoExistente()
+  19: confirmarRegistro()
+  25: confirmarRegistroExitoso()
+end note
+
+note on link
+  3: buscarDatosAdmin()
+  6: retornarDatosAdmin()
+end note
+
+note on link
+  12: validarEmpresaNoExistente()
+  15: confirmarEmpresaNoExistente()
+  20: confirmarRegistro()
+  24: confirmarRegistroExitoso()
+end note
+
+@enduml

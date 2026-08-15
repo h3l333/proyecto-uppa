@@ -1,0 +1,54 @@
+@startuml Diagrama_Secuencia_CU16
+title CU-16 Notificar sobre Vencimiento
+' Nota: el diagrama original usa numeracion jerarquica decimal creciente
+' (1, 1.1, 1.1.1, ...) para reflejar la profundidad de llamadas.
+' Se renumeraron secuencialmente para legibilidad, preservando el orden y los participantes originales.
+' Corregido: la especificacion indica "Base (automatico)" con inicio del
+' sistema sin intervencion humana; se reemplaza al Administrador como
+' disparador manual por un disparo automatico (programador de tareas),
+' en sincronia con diagrama-actividad-cu16.puml.
+
+actor ": SistemaDeCorreo" as SistemaCorreo
+control ": ProgramadorDeTareas" as Scheduler
+boundary ": InterfazAdministrador" as InterfazAdmin
+boundary ": InterfazSalidaCorreo" as InterfazSalida
+control ": GestorConvenios" as Gestor
+entity ": Convenio" as Convenio
+entity ": Empresa" as Empresa
+database "DB" as BD
+
+Scheduler -> Gestor : 1: iniciarProcesoDeVerificacion()
+activate Gestor
+
+Gestor -> Convenio : 2: buscarConveniosProximos()
+activate Convenio
+Convenio -> BD : 3: buscarConveniosProximos()
+activate BD
+BD --> Convenio : 4: devolverConvenios()
+deactivate BD
+Convenio --> Gestor : 5: devolverConvenios()
+deactivate Convenio
+
+Gestor -> Empresa : 6: solicitarDatosEmpresa()
+activate Empresa
+Empresa -> BD : 7: solicitarDatosEmpresa()
+activate BD
+BD --> Empresa : 8: devolverDatosEmpresa()
+deactivate BD
+Empresa --> Gestor : 9: devolverDatosEmpresa()
+deactivate Empresa
+
+Gestor -> Gestor : 10: consolidarReporte()
+
+Gestor --> InterfazSalida : 11: mostrarPeticionEnvioAlerta(reporte)
+activate InterfazSalida
+
+InterfazSalida -> SistemaCorreo : 12: enviarAlerta(reporte)
+
+InterfazSalida -> Gestor : 13: notificarExitoEnvio()
+deactivate InterfazSalida
+
+Gestor --> InterfazAdmin : 14: mostrarResumen()
+deactivate Gestor
+
+@enduml

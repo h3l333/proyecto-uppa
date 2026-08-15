@@ -1,0 +1,15 @@
+@startuml Diagrama_Actividad_CU12
+title CU-12 - Verificar Cupo Disponible en Empresa Pública
+
+|Sistema|
+start
+:Confirmar pertenencia sector público;
+:Validar disponibilidad de cupos;
+if (Cupos disponibles?) then (Si)
+  :Informar disponibilidad de cupos;
+else (No)
+  :Informar falta de cupos disponibles;
+endif
+stop
+
+@enduml

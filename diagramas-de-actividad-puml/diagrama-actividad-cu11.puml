@@ -1,0 +1,20 @@
+@startuml Diagrama_Actividad_CU11
+title CU-11 - Verificar Práctica Única por Ciclo Lectivo
+
+|Sistema|
+start
+:Recibir solicitud de inscripción;
+:Identificar ciclo lectivo actual;
+:Consultar práctica profesional asociada a la matrícula del alumno;
+:Validar práctica única por ciclo lectivo (regla de negocio);
+if (Existe práctica profesional en el ciclo lectivo vigente?) then (Si)
+  :Bloquear proceso de inscripción;
+  :Mostrar mensaje de error;
+  :Retornar a página principal;
+else (No)
+  :Validar solicitud;
+  :Permitir continuación;
+endif
+stop
+
+@enduml

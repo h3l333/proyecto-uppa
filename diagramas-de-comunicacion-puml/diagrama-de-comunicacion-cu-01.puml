@@ -1,0 +1,91 @@
+@startuml Diagrama_Comunicacion_CU01
+' Diagrama de comunicacion - CU-01 Registrar Practica Profesional
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+' Numeracion sincronizada con diagrama-de-secuencia-cu-01.puml.
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor Alumno
+
+object ": InterfazRegistroPractica" as Interfaz
+object ": GestorRegistroPractica" as Gestor
+object ": Alumno" as AlumnoEntidad
+object ": Empresa" as Empresa
+object ": Convenio" as Convenio
+object ": ResponsablesEmpresa" as ResponsablesEmpresa
+object ": Tutor" as Tutor
+object ": Practica" as Practica
+
+Alumno -- Interfaz
+Interfaz -- Gestor
+Gestor -- AlumnoEntidad
+Gestor -- Empresa
+Gestor -- Convenio
+Gestor -- ResponsablesEmpresa
+Gestor -- Tutor
+Gestor -- Practica
+
+note on link
+  1: seleccionarRegistroPractica()
+  15: seleccionarEmpresa()
+  24: seleccionarConvenio()
+  27: ingresarFechas()
+  49: seleccionarResponsable()
+  50: confirmarRegistro()
+  58: mostrarMensajeConfirmacion()
+end note
+
+note on link
+  2: buscarDatosAlumno()
+  7: confirmarCredenciales()
+  8: buscarEmpresas()
+  13: devolverEmpresas()
+  14: refrescarInterfaz()
+  22: devolverConvenios()
+  25: seleccionarConvenio()
+  47: devolverResponsablesCompatibles()
+  51: registrarPracticaPendiente()
+  57: confirmarRegistro()
+end note
+
+note on link
+  3: buscarDatosAlumno()
+end note
+
+note on link
+  9: buscarEmpresas()
+end note
+
+note on link
+  16: buscarConvenios()
+  17: buscarConvenios()
+  21: validarVigencia()
+end note
+
+note on link
+  42: buscarResponsables()
+  46: filtrarResponsablesPorArea()
+end note
+
+note on link
+  36: buscarTutoresCompatibles()
+  40: filtrarTutoresPorArea()
+  41: asignarTutor()
+end note
+
+note on link
+  28: validarFechas()
+  29: buscarPracticas()
+  33: validarFaltaPracticas()
+  34: verificarPublicaOPrivada()
+  52: registrarPracticaPendiente()
+  53: constructorPractica()
+end note
+
+@enduml

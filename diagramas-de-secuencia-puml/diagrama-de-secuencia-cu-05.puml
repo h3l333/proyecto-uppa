@@ -1,0 +1,70 @@
+@startuml Diagrama_Secuencia_CU05
+title CU-05 Registrar Empresa
+
+actor "Administrador del Sistema" as Admin
+boundary ": InterfazRegistroEmpresa" as Interfaz
+control ": GestorRegistroEmpresa" as Gestor
+entity ": Administrador" as AdminEnt
+entity ": Empresa" as Empresa
+database "Base de Datos" as BD
+
+Admin -> Interfaz : 1: iniciarRegistroEmpresa()
+activate Interfaz
+
+Interfaz -> Gestor : 2: validarCredenciales()
+activate Gestor
+
+Gestor -> AdminEnt : 3: buscarDatosAdmin()
+activate AdminEnt
+AdminEnt -> BD : 4: buscarDatosAdmin()
+activate BD
+BD --> AdminEnt : 5: retornarDatosAdmin()
+deactivate BD
+AdminEnt --> Gestor : 6: retornarDatosAdmin()
+deactivate AdminEnt
+
+Gestor --> Interfaz : 7: confirmarCredenciales()
+
+Interfaz -> Interfaz : 8: refrescarInterfaz()
+
+Admin -> Interfaz : 9: ingresarDatosEmpresa()
+
+Interfaz -> Gestor : 10: validarIngresos()
+
+loop hayCampo()
+  Gestor -> Gestor : 11: validarDatosCompletos()
+end
+
+Gestor -> Empresa : 12: validarEmpresaNoExistente()
+activate Empresa
+Empresa -> BD : 13: validarEmpresaNoExistente()
+activate BD
+BD --> Empresa : 14: confirmarEmpresaNoExistente()
+deactivate BD
+Empresa --> Gestor : 15: confirmarEmpresaNoExistente()
+deactivate Empresa
+
+Gestor --> Interfaz : 16: confirmarEmpresaNoExistente()
+
+Interfaz -> Interfaz : 17: refrescarInterfaz()
+
+Admin -> Interfaz : 18: confirmarRegistro()
+
+Interfaz -> Gestor : 19: confirmarRegistro()
+Gestor -> Empresa : 20: confirmarRegistro()
+activate Empresa
+Empresa -> Empresa : 21: constructorEmpresa()
+Empresa -> BD : 22: registrarEmpresa()
+activate BD
+BD --> Empresa : 23: confirmarRegistroExitoso()
+deactivate BD
+Empresa --> Gestor : 24: confirmarRegistroExitoso()
+deactivate Empresa
+
+Gestor --> Interfaz : 25: confirmarRegistroExitoso()
+deactivate Gestor
+
+Interfaz -> Interfaz : 26: refrescarInterfaz()
+deactivate Interfaz
+
+@enduml

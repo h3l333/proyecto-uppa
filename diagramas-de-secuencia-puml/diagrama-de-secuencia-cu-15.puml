@@ -1,0 +1,69 @@
+@startuml Diagrama_Secuencia_CU15
+title CU-15 Notificar Alta de Practica
+' Nota: el diagrama original usa numeracion jerarquica decimal creciente
+' (1, 1.1, 1.1.1, 1.1.1.1, ...) para reflejar la profundidad de llamadas.
+' Se renumeraron secuencialmente para legibilidad, preservando el orden y los participantes originales.
+
+actor Alumno
+actor ": SistemaDeCorreo" as SistemaCorreo
+boundary ": InterfazDeRegistracion" as Interfaz
+control ": GestorNotificaciones" as Gestor
+entity ": PracticaProfesional" as Practica
+entity ": Alumno" as AlumnoEnt
+entity ": Tutor" as Tutor
+entity ": Responsable" as Responsable
+database "DB" as BD
+
+Alumno -> Interfaz : 1: confirmarRegistro()
+activate Interfaz
+
+Interfaz -> Gestor : 2: iniciarNotificaciones()
+activate Gestor
+
+Gestor -> Practica : 3: obtenerDatosDeInvolucrados()
+activate Practica
+
+Practica -> AlumnoEnt : 4: solicitarEmailAlumno()
+activate AlumnoEnt
+AlumnoEnt -> BD : 5: solicitarEmailAlumno()
+activate BD
+BD --> AlumnoEnt : 6: devolverEmailAlumno()
+deactivate BD
+AlumnoEnt --> Practica : 7: devolverEmailAlumno()
+deactivate AlumnoEnt
+
+Practica -> Tutor : 8: solicitarEmailTutor()
+activate Tutor
+Tutor -> BD : 9: solicitarEmailTutor()
+activate BD
+BD --> Tutor : 10: devolverEmailTutor()
+deactivate BD
+Tutor --> Practica : 11: devolverEmailTutor()
+deactivate Tutor
+
+Practica -> Responsable : 12: solicitarEmailResponsable()
+activate Responsable
+Responsable -> BD : 13: solicitarEmailResponsable()
+activate BD
+BD --> Responsable : 14: devolverEmailResponsable()
+deactivate BD
+Responsable --> Practica : 15: devolverEmailResponsable()
+deactivate Responsable
+
+Practica -> Practica : 16: generarCuerpoMensaje()
+
+Practica --> Gestor : 17: devolverDatosInvolucrados()
+deactivate Practica
+
+Gestor --> Interfaz : 18: mostrarEnvio(lista, msg)
+
+Interfaz -> SistemaCorreo : 19: enviarEmail(lista, msg)
+
+SistemaCorreo -> Interfaz : 20: confirmarRecepcion()
+
+Interfaz -> Gestor : 21: notificarEstadoEnvio()
+Gestor --> Interfaz : 22: informarResultadoFinal()
+deactivate Gestor
+deactivate Interfaz
+
+@enduml

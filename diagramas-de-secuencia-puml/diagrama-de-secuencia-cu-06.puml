@@ -1,0 +1,80 @@
+@startuml Diagrama_Secuencia_CU06
+title CU-06 Registrar Convenio
+
+actor "Administrador del Sistema" as Admin
+boundary ": InterfazRegistroConvenio" as Interfaz
+control ": GestorRegistroConvenio" as Gestor
+entity ": Administrador" as AdminEnt
+entity ": Empresa" as Empresa
+entity ": Convenio" as Convenio
+database "Base de Datos" as BD
+
+Admin -> Interfaz : 1: iniciarRegistroConvenio()
+activate Interfaz
+
+Interfaz -> Gestor : 2: validarCredenciales()
+activate Gestor
+
+Gestor -> AdminEnt : 3: buscarDatosAdmin()
+activate AdminEnt
+AdminEnt -> BD : 4: buscarDatosAdmin()
+activate BD
+BD --> AdminEnt : 5: retornarDatosAdmin()
+deactivate BD
+AdminEnt --> Gestor : 6: retornarDatosAdmin()
+deactivate AdminEnt
+
+Gestor --> Interfaz : 7: confirmarCredenciales()
+
+Interfaz -> Gestor : 8: buscarEmpresas()
+Gestor -> Empresa : 9: buscarEmpresas()
+activate Empresa
+Empresa -> BD : 10: buscarEmpresas()
+activate BD
+BD --> Empresa : 11: retornarEmpresas()
+deactivate BD
+Empresa --> Gestor : 12: retornarEmpresas()
+deactivate Empresa
+Gestor --> Interfaz : 13: retornarEmpresas()
+
+Interfaz -> Interfaz : 14: refrescarInterfaz()
+
+Admin -> Interfaz : 15: seleccionarEmpresa()
+
+Interfaz -> Interfaz : 16: refrescarInterfaz()
+
+Admin -> Interfaz : 17: ingresarFechas()
+
+Interfaz -> Gestor : 18: validarDatosObligatorios()
+
+loop hayCampo
+  Gestor -> Gestor : 19: validarIntegridadDatos()
+end
+
+Gestor -> Gestor : 20: validarConsistenciaFechas()
+
+Admin -> Interfaz : 21: confirmarRegistro()
+
+Interfaz -> Gestor : 22: confirmarRegistro()
+Gestor -> Convenio : 23: confirmarRegistro()
+activate Convenio
+Convenio -> Convenio : 24: constructorConvenio()
+Convenio -> BD : 25: registrarConvenio()
+activate BD
+BD --> Convenio : 26: confirmarRegistroExitoso()
+deactivate BD
+Convenio --> Gestor : 27: confirmarRegistroExitoso()
+deactivate Convenio
+
+Gestor -> Empresa : 28: agregarConvenio()
+activate Empresa
+Empresa --> Gestor : 29: confirmarActualizacionExitosa()
+deactivate Empresa
+
+Gestor --> Interfaz : 30: confirmarRegistroExitoso()
+deactivate Gestor
+
+Interfaz -> Interfaz : 31: refrescarInterfaz()
+deactivate Interfaz
+
+@enduml

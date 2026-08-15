@@ -1,0 +1,50 @@
+@startuml Diagrama_Comunicacion_CU03
+' Diagrama de comunicacion - CU-03 Consultar Estado
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+' Corregido: el diagrama fuente rotulaba por error al actor como "Tutor" y
+' reutilizaba los objetos de CU-02; se alinea con diagrama-de-secuencia-cu-03.puml
+' (actor Alumno, objetos propios de Consultar Estado).
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor Alumno
+
+object ": Interfaz Consulta de Practicas" as Interfaz
+object ": Gestor Consulta de Practicas" as Gestor
+object ": Alumno" as AlumnoEntidad
+object ": Practica" as Practica
+
+Alumno -- Interfaz
+Interfaz -- Gestor
+Gestor -- AlumnoEntidad
+Gestor -- Practica
+
+note on link
+  1: seleccionarConsultaDePractica()
+end note
+
+note on link
+  2: validarCredencialesAlumno()
+  7: confirmarCredenciales()
+  8: solicitarDataPractica()
+  13: retornarDataPractica()
+  14: refrescarInterfaz()
+end note
+
+note on link
+  3: validarCredencialesAlumno()
+  6: confirmarCredenciales()
+end note
+
+note on link
+  9: solicitarDataPractica()
+  12: retornarDataPractica()
+end note
+
+@enduml

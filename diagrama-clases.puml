@@ -1,0 +1,163 @@
+@startuml Diagrama_Clases_UPPA
+skinparam classAttributeIconSize 0
+
+class Persona {
+  -idPersona : int
+  -nombre : String
+  -apellido : String
+  -dni : int
+  -email : String
+  -telefono : String
+  +obtenerPersona()
+  +actualizarDatos()
+}
+
+class Administrador {
+  -legajoNro : int
+  +registrarEmpresa()
+  +registrarConvenio()
+  +asignarResponsable()
+  +asignarTutorAArea()
+  +consultarConveniosProximosAVencer()
+}
+
+class ResponsableEmpresa {
+  -cargo : String
+  +generarInformeAvance()
+  +consultarSeguimiento()
+  +asignarAfinidad()
+}
+
+class Docente {
+  -legajoNro : int
+  -titulo : String
+}
+
+class DocenteNoTutor
+
+class TutorAcademico {
+  +generarInformeAvance()
+  +consultarSeguimiento()
+}
+
+class Alumno {
+  -legajoNro : int
+  -carrera : String
+  +registrarPractica()
+  +consultarEstadoPractica()
+}
+
+class "Área Profesional" as AreaProfesional {
+  -idArea : int
+  -nombre : String
+  -descripcion : String
+}
+
+class Practica {
+  -idPractica : int
+  -fechaRegistro : date
+  -fechaInicio : date
+  -fechaFinal : date
+  -estado : String
+  +registrarPractica()
+  +validarConvenioVigente()
+  +validarPracticaUnica()
+  +asignarResponsables()
+  +asignarTutor()
+  +cambiarEstado()
+  +finalizarPractica()
+  +agregarInforme()
+}
+
+class Empresa {
+  -idEmpresa : int
+  -nombre : String
+  -cuit : int
+  -rubro : String
+  -ubicacion : String
+  +agregarConvenio()
+  +agregarResponsable()
+  +obtenerResponsable()
+}
+
+class SectorPublico {
+  -cupoAlumnos : int
+  -cupoDisponible : int
+  +existeCupoDisponible()
+  +calcularCupoDisponible()
+}
+
+class SectorPrivado
+
+class Convenio {
+  -idConvenio : int
+  -descripcion : String
+  -fechaInicio : date
+  -duracion : int
+  +verificarVigencia()
+  +calcularFechaFin()
+  +estadoVigente()
+  +vigenciaProximaAVencer()
+}
+
+class "Informe de Avance" as InformeDeAvance {
+  -idInforme : int
+  -fecha : date
+  -descripcion : String
+  -evaluacionParcial : int
+  +generarInformeAvance()
+  +editarDescripcion()
+  +editarEvaluacion()
+}
+
+class "Ciclo Lectivo" as CicloLectivo {
+  -idCiclo : int
+  -anio : int
+  -fechaInicio : date
+  -fechaFin : date
+  +contieneFecha()
+}
+
+class Notificacion {
+  -idNotificacion : int
+  -fechaHora : DateTime
+  -asunto : String
+  -mensaje : String
+  -destinatario : String
+  -estado : String
+  +asignarEstado()
+}
+
+class ReglasDeNegocios {
+  -practicasXAnio : int
+  +practicasXAnio()
+}
+
+Administrador --|> Persona
+ResponsableEmpresa --|> Persona
+Docente --|> Persona
+Alumno --|> Persona
+DocenteNoTutor --|> Docente
+TutorAcademico --|> Docente
+Empresa <|-- SectorPublico
+Empresa <|-- SectorPrivado
+
+ResponsableEmpresa "1" -- "1..*" AreaProfesional
+AreaProfesional "1..*" -- "1" TutorAcademico
+
+ResponsableEmpresa "1" -- "0..*" Practica
+AreaProfesional "1" -- "0..*" Practica
+TutorAcademico "1" -- "0..1" Practica
+Alumno "1" -- "0..*" Practica
+
+Empresa "1" o-- "1..*" ResponsableEmpresa
+Empresa "1" *-- "1..*" Convenio
+Empresa "1" *-- "0..*" Practica
+
+Practica "1" *-- "0..*" InformeDeAvance
+Practica "*" -- "1" CicloLectivo
+Practica "1" -- "*" Notificacion
+Practica "0..*" -- "1" Convenio
+Practica ..> ReglasDeNegocios : valida
+
+@enduml

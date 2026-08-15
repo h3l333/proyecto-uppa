@@ -1,0 +1,81 @@
+@startuml Diagrama_Secuencia_CU04
+title CU-04 Consultar Practica (Tutor / Responsable de Empresa)
+
+actor "Tutor / Responsable de Empresa" as Actor
+boundary ": InterfazConsultaDePractica" as Interfaz
+control ": GestorConsultaDePractica" as Gestor
+entity ": Actor" as ActorEnt
+entity ": Practica" as Practica
+entity ": Responsable" as Responsable
+entity ": InformeDeAvance" as Informe
+database "Base de Datos" as BD
+
+Actor -> Interfaz : 1: iniciarConsulta()
+activate Interfaz
+
+Interfaz -> Gestor : 2: validarCredenciales()
+activate Gestor
+
+Gestor -> ActorEnt : 3: buscarDatosActor()
+activate ActorEnt
+ActorEnt -> BD : 4: buscarDatosActor()
+activate BD
+BD --> ActorEnt : 5: retornarDatosActor()
+deactivate BD
+ActorEnt --> Gestor : 6: retornarDatosActor()
+deactivate ActorEnt
+
+Gestor --> Interfaz : 7: retornarDatosActor()
+
+Interfaz -> Interfaz : 8: refrescarInterfaz()
+
+Actor -> Interfaz : 9: ingresarFiltros()
+
+Interfaz -> Gestor : 10: buscarPracticas()
+Gestor -> Practica : 11: buscarPracticas()
+activate Practica
+Practica -> BD : 12: buscarPracticas()
+activate BD
+BD --> Practica : 13: devolverPracticas()
+deactivate BD
+Practica --> Gestor : 14: devolverPracticas()
+deactivate Practica
+
+loop hayPractica
+  Gestor -> Gestor : 15: filtrarPracticas()
+end
+
+Gestor --> Interfaz : 16: devolverPracticasFiltradas()
+
+Interfaz -> Interfaz : 17: refrescarInterfaz()
+
+Actor -> Interfaz : 18: seleccionarPractica()
+
+Interfaz -> Gestor : 19: buscarDataResponsable()
+Gestor -> Responsable : 20: buscarDataResponsable()
+activate Responsable
+Responsable -> BD : 21: buscarDataResponsable()
+activate BD
+BD --> Responsable : 22: retornarDataResponsable()
+deactivate BD
+Responsable --> Gestor : 23: retornarDataResponsable()
+deactivate Responsable
+
+Gestor -> Informe : 24: buscarDataInforme()
+activate Informe
+Informe -> BD : 25: buscarDataInforme()
+activate BD
+BD --> Informe : 26: retornarDataInforme()
+deactivate BD
+Informe --> Gestor : 27: retornarDataInforme()
+deactivate Informe
+
+Gestor --> Interfaz : 28: retornarDataResponsable()
+Gestor --> Interfaz : 29: retornarDataInforme()
+deactivate Gestor
+
+Interfaz -> Interfaz : 30: refrescarInterfaz()
+Interfaz -> Interfaz : 31: mostrarDetallePractica()
+deactivate Interfaz
+
+@enduml

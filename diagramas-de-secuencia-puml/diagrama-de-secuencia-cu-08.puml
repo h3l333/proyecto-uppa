@@ -1,0 +1,97 @@
+@startuml Diagrama_Secuencia_CU08
+title CU-08 Asignar Tutor
+
+actor "Administrador del Sistema" as Administrador
+boundary ": InterfazAsignarTutor" as Interfaz
+control ": GestorAsignarTutor" as Gestor
+entity ": Administrador" as AdminEnt
+entity ": Empresa" as Empresa
+entity ": Tutor" as Tutor
+entity ": AreaProfesional" as AreaProfesional
+database "Base de Datos" as BD
+
+Administrador -> Interfaz : 1: iniciarOpcionAsignacion()
+activate Interfaz
+
+Interfaz -> Gestor : 2: validarCredenciales()
+activate Gestor
+
+Gestor -> AdminEnt : 3: buscarDatosAdmin()
+activate AdminEnt
+AdminEnt -> BD : 4: buscarDatosAdmin()
+activate BD
+BD --> AdminEnt : 5: devolverDatosAdmin()
+deactivate BD
+AdminEnt --> Gestor : 6: devolverDatosAdmin()
+deactivate AdminEnt
+
+Gestor --> Interfaz : 7: confirmarCredenciales()
+
+Interfaz -> Gestor : 8: buscarEmpresa()
+Gestor -> Empresa : 9: buscarEmpresa()
+activate Empresa
+Empresa -> BD : 10: buscarDatosEmpresa()
+activate BD
+BD --> Empresa : 11: devolverDatosEmpresa()
+deactivate BD
+Empresa --> Gestor : 12: devolverDatosEmpresa()
+deactivate Empresa
+Gestor --> Interfaz : 13: devolverDatosEmpresa()
+
+Interfaz -> Interfaz : 14: refrescarInterfaz()
+Interfaz -> Interfaz : 15: mostrarDatosEmpresa()
+
+Administrador -> Interfaz : 16: seleccionarEmpresa()
+
+Interfaz -> Gestor : 17: buscarTutor()
+Gestor -> Tutor : 18: buscarDatosTutor()
+activate Tutor
+Tutor -> BD : 19: buscarDatosTutor()
+activate BD
+BD --> Tutor : 20: devolverDatosTutor()
+deactivate BD
+Tutor --> Gestor : 21: devolverDatosTutor()
+deactivate Tutor
+Gestor --> Interfaz : 22: devolverDatosTutor()
+
+Interfaz -> Interfaz : 23: mostrarDatosTutor()
+
+Administrador -> Interfaz : 24: seleccionarTutor()
+Administrador -> Interfaz : 25: seleccionarAreaProfesional()
+
+Interfaz -> Gestor : 26: validarDatosObligatorios()
+Gestor -> Gestor : 27: validarIntegridadDatos()
+
+Gestor -> AreaProfesional : 28: buscarAreaProfesional()
+activate AreaProfesional
+AreaProfesional -> BD : 29: buscarDatosAreaProfesional()
+activate BD
+BD --> AreaProfesional : 30: devolverDatosAreaProfesional()
+deactivate BD
+AreaProfesional --> Gestor : 31: devolverAreaProfesional()
+deactivate AreaProfesional
+Gestor --> Interfaz : 32: devolverAreaProfesional()
+
+Interfaz -> Interfaz : 33: buscarAreaProfesional()
+Interfaz -> Interfaz : 34: mostrarAreaProfesional()
+
+Administrador -> Interfaz : 35: confirmarRegistro()
+
+Interfaz -> Gestor : 36: confirmarRegistro()
+Gestor -> AreaProfesional : 37: confirmarRegistro()
+activate AreaProfesional
+AreaProfesional -> AreaProfesional : 38: constructorAreaProfesional()
+AreaProfesional -> BD : 39: guardarDatosAreaProfesional()
+activate BD
+BD --> AreaProfesional : 40: datosGuardadosExitoso()
+deactivate BD
+AreaProfesional --> Gestor : 41: confirmarRegistroExitoso()
+deactivate AreaProfesional
+
+Gestor --> Interfaz : 42: confirmarRegistroExitoso()
+deactivate Gestor
+
+Interfaz -> Interfaz : 43: mostrarRegistroExitoso()
+deactivate Interfaz
+
+@enduml

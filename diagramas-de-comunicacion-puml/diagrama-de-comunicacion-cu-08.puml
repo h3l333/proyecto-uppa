@@ -1,0 +1,79 @@
+@startuml Diagrama_Comunicacion_CU08
+' Diagrama de comunicacion - CU-08 Asignar Tutor a Area Profesional
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor "Administrador del Sistema" as Administrador
+
+object "InterfazAsignarTutor" as Interfaz
+object "GestorAsignarTutor" as Gestor
+object "Administrador" as AdministradorEntidad
+object "Empresa" as Empresa
+object "Tutor" as Tutor
+object "Área Profesional" as AreaProfesional
+
+Administrador -- Interfaz
+note on link
+  1: iniciarOpcionAsignacion()
+  16: seleccionarEmpresa()
+  24: seleccionarTutor()
+  25: seleccionarAreaProfesional()
+  35: confirmarRegistro()
+end note
+
+Interfaz -- Gestor
+note on link
+  2: validarCredenciales()
+  7: confirmarCredenciales()
+  8: buscarEmpresa()
+  13: devolverDatosEmpresa()
+  14: refrescarInterfaz()
+  15: mostrarDatosEmpresa()
+  17: buscarTutor()
+  22: devolverDatosTutor()
+  23: mostrarDatosTutor()
+  26: validarDatosObligatorios()
+  27: validarIntegridadDatos()
+  32: devolverAreaProfesional()
+  33: buscarAreaProfesional()
+  34: mostrarAreaProfesional()
+  36: confirmarRegistro()
+  42: confirmarRegistroExitoso()
+  43: mostrarRegistroExitoso()
+end note
+
+Gestor -- AdministradorEntidad
+note on link
+  3: buscarDatosAdmin()
+  6: devolverDatosAdmin()
+end note
+
+Gestor -- Empresa
+note on link
+  9: buscarEmpresa()
+  12: devolverDatosEmpresa()
+end note
+
+Gestor -- Tutor
+note on link
+  18: buscarDatosTutor()
+  21: devolverDatosTutor()
+end note
+
+Gestor -- AreaProfesional
+note on link
+  28: buscarAreaProfesional()
+  31: devolverAreaProfesional()
+  37: confirmarRegistro()
+  38: constructorAreaProfesional()
+  41: confirmarRegistroExitoso()
+end note
+
+@enduml

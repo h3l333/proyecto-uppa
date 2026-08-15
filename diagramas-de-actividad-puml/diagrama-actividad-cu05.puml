@@ -1,0 +1,37 @@
+@startuml Diagrama_Actividad_CU05
+title CU-05 - Registrar Empresa
+
+start
+:Acceder a "Registrar empresa";
+
+label formulario
+:Mostrar formulario de alta;
+fork
+  :Ingresar nombre empresa;
+fork again
+  :Ingresar CUIT empresa;
+fork again
+  :Ingresar rubro;
+fork again
+  :Ingresar ubicación;
+fork again
+  :Ingresar sector;
+end fork
+
+:Validar datos obligatorios completos;
+:Validar inexistencia de empresa con CUIT compartido;
+if (Datos incompletos o CUIT ya registrado?) then (Si)
+  goto formulario
+else (No)
+endif
+
+:Confirmar operación;
+:Registrar empresa;
+if (Alta exitosa?) then (Si)
+  :Informar alta exitosa;
+else (No)
+  :Informar error en alta;
+endif
+stop
+
+@enduml

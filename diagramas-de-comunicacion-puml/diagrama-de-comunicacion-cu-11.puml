@@ -1,0 +1,55 @@
+@startuml Diagrama_Comunicacion_CU11
+' Diagrama de comunicacion - CU-11 Verificar Practica Unica Por Ciclo
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+' Numeracion sincronizada con diagrama-de-secuencia-cu-11.puml.
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor Alumno
+
+object ": InterfazRegistroPractica" as Interfaz
+object ": GestorRegistroPractica" as Gestor
+object ": DatosAlumno" as DatosAlumno
+object ": Practica" as Practica
+object ": ReglasDeNegocios" as Reglas
+
+Alumno -- Interfaz
+Interfaz -- Gestor
+Gestor -- DatosAlumno
+Gestor -- Practica
+Practica -- Reglas
+
+note on link
+  1: solicitarInscripcion()
+end note
+
+note on link
+  2: verificarPracticaUnicaPorCiclo()
+  16: confirmarPracticaUnicaPorCiclo()
+end note
+
+note on link
+  3: identificarCicloLectivoActual()
+  4: obtenerMatricula()
+  7: devolverMatricula()
+end note
+
+note on link
+  8: buscarPractica()
+  11: devolverPractica()
+  12: validarPracticaUnica()
+  15: confirmarPracticaUnica()
+end note
+
+note on link
+  13: practicasXAnio()
+  14: confirmarLimitePracticasXAnio()
+end note
+
+@enduml

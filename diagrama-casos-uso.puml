@@ -1,0 +1,52 @@
+@startuml Diagrama_CU_UPPA
+left to right direction
+skinparam packageStyle rectangle
+
+actor Alumno
+actor Tutor
+actor "Responsable de Empresa" as ResponsableEmpresa
+actor "Administrador del Sistema" as AdminSistema
+actor "Sistema de Correo Electrónico" as SistemaCorreo
+
+rectangle "Universidad de UPPA - Sistema de Gestión de Prácticas Profesionales" {
+  usecase "CU-01 Registrar Práctica Profesional" as CU01
+  usecase "CU-02 Generar Informe de Avance" as CU02
+  usecase "CU-03 Consultar Estado" as CU03
+  usecase "CU-04 Consultar Seguimiento de Práctica" as CU04
+  usecase "CU-05 Registrar Empresa" as CU05
+  usecase "CU-06 Registrar Convenio" as CU06
+  usecase "CU-07 Asignar Responsable a Empresa" as CU07
+  usecase "CU-08 Asignar tutor a Área Profesional" as CU08
+  usecase "CU-09 Consultar Convenios Próximos a Vencer" as CU09
+  usecase "CU-10 Verificar Vigencia del Convenio" as CU10
+  usecase "CU-11 Verificar Práctica Única por Ciclo Lectivo" as CU11
+  usecase "CU-12 Verificar Cupo Disponible en Empresa Pública" as CU12
+  usecase "CU-13 Proponer Tutor Académico Compatible" as CU13
+  usecase "CU-14 Seleccionar Responsable Compatible" as CU14
+  usecase "CU-15 Notificar Alta de Práctica" as CU15
+  usecase "CU-16 Notificar sobre Vencimiento" as CU16
+}
+
+Alumno -- CU01
+Alumno -- CU03
+Alumno -- CU12
+Tutor -- CU02
+Tutor -- CU04
+ResponsableEmpresa -- CU02
+ResponsableEmpresa -- CU04
+AdminSistema -- CU05
+AdminSistema -- CU06
+AdminSistema -- CU07
+AdminSistema -- CU08
+AdminSistema -- CU09
+SistemaCorreo -- CU15
+SistemaCorreo -- CU16
+
+CU01 ..> CU10 : <<Include>>
+CU01 ..> CU11 : <<Include>>
+CU01 ..> CU13 : <<Include>>
+CU01 ..> CU14 : <<Include>>
+CU01 ..> CU15 : <<Include>>
+CU12 ..> CU01 : <<Extend>>
+
+@enduml

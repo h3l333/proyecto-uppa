@@ -1,0 +1,32 @@
+@startuml Diagrama_Actividad_CU10
+title CU-10 - Verificar Vigencia del Convenio
+
+|Sistema|
+start
+:Recibir solicitud de validación de convenio;
+:Calcular fecha de vencimiento;
+fork
+  :Comparar fecha de vencimiento con la fecha actual;
+fork again
+  :Verificar tipo de empresa;
+end fork
+
+if (Convenio vencido?) then (Si)
+  :Mostrar mensaje respecto a convenio vencido;
+else (No)
+  if (Es sector público?) then (Si)
+    :Consultar cantidad de alumnos con prácticas en curso;
+    if (Cupo superado?) then (Si)
+      :Mostrar mensaje respecto a superación de cupo;
+    else (No)
+      :Confirmar fechas válidas y existencia de cupos;
+      :Habilitar continuación de registro;
+    endif
+  else (No)
+    :Confirmar fechas válidas y existencia de cupos;
+    :Habilitar continuación de registro;
+  endif
+endif
+stop
+
+@enduml

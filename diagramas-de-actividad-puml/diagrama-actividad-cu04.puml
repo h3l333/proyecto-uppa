@@ -1,0 +1,27 @@
+@startuml Diagrama_Actividad_CU04
+title CU-04 - Consultar Seguimiento de Práctica
+
+start
+:Acceder a "Consulta de Seguimiento";
+fork
+  :Mostrar filtros;
+fork again
+  :Mostrar criterios de búsqueda;
+end fork
+
+repeat
+  :Ingresar criterios de búsqueda;
+  :Validar criterios;
+repeat while (Criterios válidos?) is (No) not (Si)
+
+:Recuperar y listar prácticas que cumplen los criterios;
+if (Existen prácticas que cumplen los criterios?) then (Si)
+  :Seleccionar práctica del listado;
+  :Mostrar detalle del seguimiento de la práctica;
+  :Finalizar consulta;
+else (No)
+  :Informar que no se encontraron resultados;
+endif
+stop
+
+@enduml

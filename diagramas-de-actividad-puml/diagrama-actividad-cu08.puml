@@ -1,0 +1,34 @@
+@startuml Diagrama_Actividad_CU08
+title CU-08 - Asignar Tutor a Área Profesional
+
+|Administrador|
+start
+:Acceder a la opción Asignar Tutor a Área Profesional;
+
+|Sistema|
+:Mostrar tutores;
+
+|Administrador|
+label seleccionar_tutor
+:Seleccionar tutor;
+
+|Sistema|
+:Mostrar áreas profesionales asociadas;
+
+|Administrador|
+repeat
+  :Seleccionar área profesional a asignar;
+repeat while (Asociar otra área al tutor?) is (Si) not (No)
+
+|Sistema|
+:Validar datos obligatorios;
+if (Datos obligatorios válidos?) then (Si)
+  :Asociar tutor a áreas profesionales;
+  :Mostrar mensaje confirmación de asociación de tutor a áreas profesionales;
+  stop
+else (No)
+  |Administrador|
+  goto seleccionar_tutor
+endif
+
+@enduml

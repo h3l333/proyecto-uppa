@@ -1,0 +1,44 @@
+@startuml Diagrama_Comunicacion_CU12
+' Diagrama de comunicacion - CU-12 Verificar Cupo
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+' Numeracion sincronizada con diagrama-de-secuencia-cu-12.puml.
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor Alumno
+
+object "InterfazVerificarCupo" as Interfaz
+object "GestorVerificarCupo" as Gestor
+object "Empresa" as Empresa
+
+Alumno -- Interfaz
+Interfaz -- Gestor
+Gestor -- Empresa
+
+note on link
+  1: seleccionarEmpresa()
+  8: iniciarVerificacion()
+end note
+
+note on link
+  2: seleccionarEmpresa()
+  9: iniciarVerificacion()
+  15: confirmarCuposDisponibles()
+end note
+
+note on link
+  3: obtenerSector()
+  6: devolverSector()
+  7: verificarEmpresaPublica()
+  10: obtenerCuposDisponibles()
+  13: devolverCupos()
+  14: validarDisponibilidad()
+end note
+
+@enduml

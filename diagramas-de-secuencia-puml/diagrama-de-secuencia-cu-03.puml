@@ -1,0 +1,50 @@
+@startuml Diagrama_Secuencia_CU03
+title CU-03 Consultar Practica
+
+actor Alumno
+boundary ": Interfaz Consulta de Practicas" as Interfaz
+control ": Gestor Consulta de Practicas" as Gestor
+entity ": Alumno" as AlumnoEnt
+entity ": Practica" as Practica
+database "Base de Datos" as BD
+
+Alumno -> Interfaz : 1: seleccionarConsultaDePractica()
+activate Interfaz
+
+Interfaz -> Gestor : 2: validarCredencialesAlumno()
+activate Gestor
+
+Gestor -> AlumnoEnt : 3: validarCredencialesAlumno()
+activate AlumnoEnt
+AlumnoEnt -> BD : 4: validarCredencialesAlumno()
+activate BD
+BD --> AlumnoEnt : 5: confirmarCredenciales()
+deactivate BD
+AlumnoEnt --> Gestor : 6: confirmarCredenciales()
+deactivate AlumnoEnt
+
+Gestor --> Interfaz : 7: confirmarCredenciales()
+
+loop haySigCampo
+  Interfaz -> Gestor : 8: solicitarDataPractica()
+  Gestor -> Practica : 9: solicitarDataPractica()
+  activate Practica
+  Practica -> BD : 10: solicitarDataPractica()
+  activate BD
+  BD --> Practica : 11: retornarDataPractica()
+  deactivate BD
+  Practica --> Gestor : 12: retornarDataPractica()
+  deactivate Practica
+  Gestor --> Interfaz : 13: retornarDataPractica()
+end
+
+note over Gestor, Practica
+  El sistema busca y retorna
+  datos de cada campo pertinente
+end note
+
+Interfaz -> Interfaz : 14: refrescarInterfaz()
+deactivate Gestor
+deactivate Interfaz
+
+@enduml

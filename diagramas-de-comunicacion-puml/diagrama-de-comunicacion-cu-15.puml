@@ -1,0 +1,66 @@
+@startuml Diagrama_Comunicacion_CU15
+' Diagrama de comunicacion - CU-15 Notificar Alta de Practica
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor Alumno
+actor "Sistema de correo" as SistemaCorreo
+entity ": Alumno" as AlumnoInvolucrado
+entity ": Tutor" as Tutor
+entity ": Responsable" as Responsable
+
+object ": InterfazDeRegistracion" as Interfaz
+object ": GestorDeNotificaciones" as Gestor
+object ": PracticaProfesional" as Practica
+
+Alumno -- Interfaz
+note on link
+  1: confirmarRegistro()
+end note
+
+Interfaz -- Gestor
+note on link
+  2: iniciarNotificaciones()
+  10: generarCuerpoDeMensaje()
+  11: mostrarEnvio(lista, msg)
+  14: notificarEstadoEnvio()
+  15: informarResultadoFinal()
+end note
+
+Interfaz -- SistemaCorreo
+note on link
+  12: enviarEmail(lista, msg)
+  13: confirmarRecepcion()
+end note
+
+Gestor -- Practica
+note on link
+  3: ObtenerDatosDeLosInvolucrados()
+end note
+
+Practica -- AlumnoInvolucrado
+note on link
+  4: solicitarEmail()
+  5: devolverEmail()
+end note
+
+Practica -- Tutor
+note on link
+  6: solicitarEmail()
+  7: devolverEmail()
+end note
+
+Practica -- Responsable
+note on link
+  8: solicitarEmail()
+  9: devolverEmail()
+end note
+
+@enduml

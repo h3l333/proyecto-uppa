@@ -1,0 +1,40 @@
+@startuml Diagrama_Secuencia_CU13
+title CU-13 Proponer Tutor Academico Compatible
+' CU-13 es un caso de uso Include invocado internamente por CU-01; su actor
+' principal es el sistema (ver especificacion), por lo que no participa un
+' actor humano directo. El disparador es el gestor de CU-01.
+
+control ": GestorRegistroPractica" as GestorCU01
+control "GestorPropuestaTutor" as Gestor
+entity "PracticaProfesional" as Practica
+entity "Docente" as Docente
+database "Base de datos" as BD
+
+GestorCU01 -> Gestor : 1: proponerTutorCompatible(practicaSeleccionada)
+activate Gestor
+
+Gestor -> Docente : 2: buscarDocentesRegistrados()
+activate Docente
+Docente -> BD : 3: buscarDocentesRegistrados()
+activate BD
+BD --> Docente : 4: devolverDocentes()
+deactivate BD
+Docente --> Gestor : 5: devolverDocentes()
+deactivate Docente
+
+Gestor -> Practica : 6: obtenerAreaProfesional()
+activate Practica
+Practica -> BD : 7: obtenerAreaProfesional()
+activate BD
+BD --> Practica : 8: devolverAreaProfesional()
+deactivate BD
+Practica --> Gestor : 9: devolverAreaProfesional()
+deactivate Practica
+
+Gestor -> Gestor : 10: filtrarDocentesPorArea()
+Gestor -> Gestor : 11: determinarTutorCompatible()
+
+Gestor --> GestorCU01 : 12: tutorPropuesto()
+deactivate Gestor
+
+@enduml

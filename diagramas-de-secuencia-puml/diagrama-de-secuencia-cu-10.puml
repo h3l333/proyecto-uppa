@@ -1,0 +1,60 @@
+@startuml Diagrama_Secuencia_CU10
+title CU-10 Verificar Vigencia del Convenio
+
+actor Alumno
+boundary ": Interfaz RegistrarPractica" as Interfaz
+control ": Gestor RegistroPractica" as Gestor
+entity ": Convenio" as Convenio
+entity ": Empresa" as Empresa
+entity ": Practica" as Practica
+database "Base de datos" as BD
+
+Alumno -> Interfaz : 1: confirmarConvenio()
+activate Interfaz
+
+Interfaz -> Gestor : 2: validarConvenio()
+activate Gestor
+
+Gestor -> Convenio : 3: buscarConvenio()
+activate Convenio
+Convenio -> BD : 4: buscarConvenio()
+activate BD
+BD --> Convenio : 5: devolverConvenio()
+deactivate BD
+
+Convenio -> Convenio : 6: calcularFechaFin()
+Gestor -> Convenio : 7: verificarVigencia()
+Convenio --> Gestor : 8: devolverVigencia()
+deactivate Convenio
+
+Gestor -> Empresa : 9: buscarTipoEmpresa()
+activate Empresa
+Empresa -> BD : 10: buscarTipoEmpresa()
+activate BD
+BD --> Empresa : 11: devolverTipoEmpresa()
+deactivate BD
+Empresa --> Gestor : 12: devolverTipoEmpresa()
+deactivate Empresa
+
+Gestor -> Gestor : 13: verificarTipoEmpresa()
+
+alt tipo = sector publico
+  Gestor -> Practica : 14: buscarPractica()
+  activate Practica
+  Practica -> BD : 15: buscarPractica()
+  activate BD
+  BD --> Practica : 16: devolverPractica()
+  deactivate BD
+  Practica --> Gestor : 17: devolverPractica()
+  deactivate Practica
+
+  Gestor -> Gestor : 18: verificarCupo()
+end
+
+Gestor --> Interfaz : 19: confirmarVigencia()
+deactivate Gestor
+
+Interfaz -> Interfaz : 20: refrescarInterfaz()
+deactivate Interfaz
+
+@enduml

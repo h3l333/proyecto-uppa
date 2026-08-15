@@ -1,0 +1,53 @@
+@startuml Diagrama_Comunicacion_CU09
+' Diagrama de comunicacion - CU-09 Consultar Convenios Proximos a Vencer
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor Administrador
+
+object "InterfazConsultarConvenios" as Interfaz
+object "GestorConsultarConvenios" as Gestor
+object "Administrador" as AdministradorEntidad
+object "Convenios" as Convenios
+
+Administrador -- Interfaz
+note on link
+  1: iniciarOpcionConsulta()
+  11: mostrarDatosConvenios()
+  12: seleccionarFiltros()
+  17: mostrarDatosConveniosPAVencer()
+end note
+
+Interfaz -- Gestor
+note on link
+  2: validarCredenciales()
+  5: confirmarCredenciales()
+  6: buscarConvenios()
+  9: devolverDatosConvenios()
+  10: refrescarInterfaz()
+  13: seleccionarFiltros()
+  14: validarDatosObligatorios()
+  15: validarIntegridadDatos()
+  16: devolverDatosConveniosPAVencer()
+end note
+
+Gestor -- AdministradorEntidad
+note on link
+  3: buscarDatosAdmin()
+  4: devolverDatosAdmin()
+end note
+
+Gestor -- Convenios
+note on link
+  7: buscarConvenios()
+  8: devolverDatosConvenios()
+end note
+
+@enduml

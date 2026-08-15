@@ -1,0 +1,43 @@
+@startuml Diagrama_Actividad_CU09
+title CU-09 - Consultar Convenios Próximos a Vencer
+
+|Administrador|
+start
+:Acceder a la opción Consulta de Convenios a Vencer;
+
+|Sistema|
+:Mostrar criterios y filtros de búsqueda;
+
+|Administrador|
+label seleccionar_criterios
+:Seleccionar criterios y filtros;
+
+|Sistema|
+:Validar datos obligatorios;
+if (Datos obligatorios válidos?) then (No)
+  |Administrador|
+  goto seleccionar_criterios
+else (Si)
+endif
+
+|Sistema|
+:Recuperar convenios próximos a vencer;
+if (Se encontraron convenios?) then (No)
+  :Informar que no hay convenios próximos a vencer;
+  |Administrador|
+  if (Modificar parámetros?) then (Si)
+    goto seleccionar_criterios
+  else (No)
+    stop
+  endif
+else (Si)
+endif
+
+|Sistema|
+:Mostrar convenios;
+
+|Administrador|
+:Finalizar consulta;
+stop
+
+@enduml

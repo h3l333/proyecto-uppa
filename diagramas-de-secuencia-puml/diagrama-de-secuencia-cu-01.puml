@@ -1,0 +1,151 @@
+@startuml Diagrama_Secuencia_CU01
+title CU-01 Registrar Practica Profesional
+
+actor Alumno
+boundary ": InterfazRegistroPractica" as Interfaz
+control ": GestorRegistroPractica" as Gestor
+entity ": Alumno" as AlumnoEnt
+entity ": Empresa" as Empresa
+entity ": Convenio" as Convenio
+entity ": Tutor" as Tutor
+entity ": ResponsablesEmpresa" as Responsables
+entity ": Practica" as Practica
+database "Base de Datos" as BD
+actor ": SistemaCorreo" as SistemaCorreo
+
+Alumno -> Interfaz : 1: seleccionarRegistroPractica()
+activate Interfaz
+
+Interfaz -> Gestor : 2: buscarDatosAlumno()
+activate Gestor
+
+Gestor -> AlumnoEnt : 3: buscarDatosAlumno()
+activate AlumnoEnt
+AlumnoEnt -> BD : 4: buscarDatosAlumno()
+activate BD
+BD --> AlumnoEnt : 5: devolverDatosAlumno()
+deactivate BD
+AlumnoEnt --> Gestor : 6: devolverDatosAlumno()
+deactivate AlumnoEnt
+
+Gestor --> Interfaz : 7: confirmarCredenciales()
+
+Interfaz -> Gestor : 8: buscarEmpresas()
+Gestor -> Empresa : 9: buscarEmpresas()
+activate Empresa
+Empresa -> BD : 10: buscarEmpresas()
+activate BD
+BD --> Empresa : 11: devolverEmpresas()
+deactivate BD
+Empresa --> Gestor : 12: devolverEmpresas()
+deactivate Empresa
+Gestor --> Interfaz : 13: devolverEmpresas()
+
+Interfaz -> Interfaz : 14: refrescarInterfaz()
+
+Alumno -> Interfaz : 15: seleccionarEmpresa()
+
+Interfaz -> Gestor : 16: buscarConvenios()
+Gestor -> Convenio : 17: buscarConvenios()
+activate Convenio
+Convenio -> BD : 18: buscarConvenios()
+activate BD
+BD --> Convenio : 19: devolverConvenios()
+deactivate BD
+Convenio --> Gestor : 20: devolverConvenios()
+deactivate Convenio
+
+loop existeSig
+  Gestor -> Gestor : 21: validarVigencia()
+end
+
+Gestor --> Interfaz : 22: devolverConvenios()
+
+Interfaz -> Interfaz : 23: refrescarInterfaz()
+
+Alumno -> Interfaz : 24: seleccionarConvenio()
+
+Interfaz -> Gestor : 25: seleccionarConvenio()
+
+Interfaz -> Interfaz : 26: refrescarInterfaz()
+
+Alumno -> Interfaz : 27: ingresarFechas()
+
+Interfaz -> Gestor : 28: validarFechas()
+Gestor -> Practica : 29: buscarPracticas()
+activate Practica
+Practica -> BD : 30: buscarPracticas()
+activate BD
+BD --> Practica : 31: devolverPracticas()
+deactivate BD
+Practica --> Gestor : 32: devolverPracticas()
+deactivate Practica
+
+Gestor -> Gestor : 33: validarFaltaPracticas()
+
+Gestor -> Gestor : 34: verificarPublicaOPrivada()
+
+alt Empresa del sector publico
+  ref over Gestor
+    Verificar Cupo
+  end ref
+end
+
+Gestor --> Interfaz : 35: confirmarCupoConvenio()
+
+Gestor -> Tutor : 36: buscarTutoresCompatibles()
+activate Tutor
+Tutor -> BD : 37: buscarTutoresCompatibles()
+activate BD
+BD --> Tutor : 38: devolverTutores()
+deactivate BD
+Tutor --> Gestor : 39: devolverTutores()
+deactivate Tutor
+
+loop haySig
+  Gestor -> Gestor : 40: filtrarTutoresPorArea()
+end
+
+Gestor -> Gestor : 41: asignarTutor()
+
+Gestor -> Responsables : 42: buscarResponsables()
+activate Responsables
+Responsables -> BD : 43: buscarResponsables()
+activate BD
+BD --> Responsables : 44: devolverResponsables()
+deactivate BD
+Responsables --> Gestor : 45: devolverResponsables()
+deactivate Responsables
+
+loop haySig
+  Gestor -> Gestor : 46: filtrarResponsablesPorArea()
+end
+
+Gestor --> Interfaz : 47: devolverResponsablesCompatibles()
+
+Interfaz -> Interfaz : 48: refrescarInterfaz()
+
+Alumno -> Interfaz : 49: seleccionarResponsable()
+Alumno -> Interfaz : 50: confirmarRegistro()
+
+Interfaz -> Gestor : 51: registrarPracticaPendiente()
+Gestor -> Practica : 52: registrarPracticaPendiente()
+activate Practica
+Practica -> Practica : 53: constructorPractica()
+Practica -> BD : 54: registrarPracticaPendiente()
+activate BD
+BD --> Practica : 55: confirmarRegistro()
+deactivate BD
+Practica --> Gestor : 56: confirmarRegistro()
+deactivate Practica
+
+Gestor --> Interfaz : 57: confirmarRegistro()
+
+Interfaz -> Interfaz : 58: mostrarMensajeConfirmacion()
+
+Gestor -> SistemaCorreo : 59: enviarCorreo()
+deactivate Gestor
+
+deactivate Interfaz
+
+@enduml

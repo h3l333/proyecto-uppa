@@ -1,0 +1,53 @@
+@startuml Diagrama_Secuencia_CU11
+title CU-11 Verificar Practica Unica por Ciclo Lectivo
+
+actor Alumno
+boundary ": InterfazRegistroPractica" as Interfaz
+control ": GestorRegistroPractica" as Gestor
+entity ": DatosAlumno" as DatosAlumno
+entity ": Practica" as Practica
+entity ": ReglasDeNegocios" as Reglas
+database "Base de datos" as BD
+
+Alumno -> Interfaz : 1: solicitarInscripcion()
+activate Interfaz
+
+Interfaz -> Gestor : 2: verificarPracticaUnicaPorCiclo()
+activate Gestor
+
+Gestor -> Gestor : 3: identificarCicloLectivoActual()
+
+Gestor -> DatosAlumno : 4: obtenerMatricula()
+activate DatosAlumno
+DatosAlumno -> BD : 5: obtenerMatricula()
+activate BD
+BD --> DatosAlumno : 6: devolverMatricula()
+deactivate BD
+DatosAlumno --> Gestor : 7: devolverMatricula()
+deactivate DatosAlumno
+
+Gestor -> Practica : 8: buscarPractica()
+activate Practica
+Practica -> BD : 9: buscarPractica()
+activate BD
+BD --> Practica : 10: devolverPractica()
+deactivate BD
+Practica --> Gestor : 11: devolverPractica()
+deactivate Practica
+
+Gestor -> Practica : 12: validarPracticaUnica()
+activate Practica
+Practica -> Reglas : 13: practicasXAnio()
+activate Reglas
+Reglas --> Practica : 14: confirmarLimitePracticasXAnio()
+deactivate Reglas
+Practica --> Gestor : 15: confirmarPracticaUnica()
+deactivate Practica
+
+Gestor --> Interfaz : 16: confirmarPracticaUnicaPorCiclo()
+deactivate Gestor
+
+Interfaz -> Interfaz : 17: refrescarInterfaz()
+deactivate Interfaz
+
+@enduml

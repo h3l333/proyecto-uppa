@@ -1,0 +1,20 @@
+@startuml Diagrama_Actividad_CU13
+title CU-13 - Proponer Tutor Académico Compatible
+
+|Sistema|
+start
+:Recibir práctica profesional seleccionada;
+:Verificar existencia de docentes registrados;
+if (Docentes registrados existentes?) then (Si)
+  :Filtrar docentes por compatibilidad;
+  if (Existen docentes compatibles?) then (Si)
+    :Proponer tutor compatible;
+  else (No)
+    :Informar falta de docentes compatibles;
+  endif
+else (No)
+  :Informar falta de docentes;
+endif
+stop
+
+@enduml

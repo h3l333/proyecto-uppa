@@ -1,0 +1,81 @@
+@startuml Diagrama_Comunicacion_CU07
+' Diagrama de comunicacion - CU-07 Asignar Responsable
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+' Numeracion sincronizada con diagrama-de-secuencia-cu-07.puml.
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor "Administrador del Sistema" as ActorAdmin
+
+object "InterfazAsignarResponsable" as Interfaz
+object "GestorAsignarResponsable" as Gestor
+object "Administrador" as AdminEntidad
+object "Empresa" as Empresa
+object "Responsable" as Responsable
+object "AreaProfesional" as AreaProfesional
+
+ActorAdmin -- Interfaz
+Interfaz -- Gestor
+Gestor -- AdminEntidad
+Gestor -- Empresa
+Gestor -- Responsable
+Empresa -- Responsable
+Responsable -- AreaProfesional
+
+note on link
+  1: iniciarOpcionAsignacion()
+  16: seleccionarEmpresa()
+  24: seleccionarResponsable()
+  25: seleccionarAreasAfines()
+  26: confirmarRegistro()
+end note
+
+note on link
+  2: validarCredenciales()
+  7: confirmarCredenciales()
+  8: buscarEmpresa()
+  13: devolverDatosEmpresa()
+  14: refrescarInterfaz()
+  15: mostrarDatosEmpresa()
+  17: buscarResponsable()
+  22: devolverDatosResponsable()
+  23: mostrarDatosResponsable()
+  27: confirmarRegistro()
+  39: confirmarRegistroExitoso()
+  40: mostrarRegistroExitoso()
+end note
+
+note on link
+  3: buscarDatosAdmin()
+  6: devolverDatosAdmin()
+end note
+
+note on link
+  9: buscarEmpresa()
+  12: devolverDatosEmpresa()
+  29: agregarResponsable()
+  38: confirmarRegistroExitoso()
+end note
+
+note on link
+  18: buscarResponsable()
+  21: devolverDatosResponsable()
+end note
+
+note on link
+  30: constructorResponsable()
+  37: confirmarRegistroExitoso()
+end note
+
+note on link
+  33: asignarAfinidad()
+  36: confirmarAsociacion()
+end note
+
+@enduml

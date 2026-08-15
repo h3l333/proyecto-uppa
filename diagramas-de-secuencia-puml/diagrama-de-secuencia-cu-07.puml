@@ -1,0 +1,94 @@
+@startuml Diagrama_Secuencia_CU07
+title CU-07 Asignar Responsable
+
+actor "Administrador del Sistema" as Admin
+boundary ": InterfazAsignarResponsable" as Interfaz
+control ": GestorAsignarResponsable" as Gestor
+entity ": Administrador" as AdminEnt
+entity ": Empresa" as Empresa
+entity ": Responsable" as Responsable
+entity ": AreaProfesional" as AreaProfesional
+database "Base de Datos" as BD
+
+Admin -> Interfaz : 1: iniciarOpcionAsignacion()
+activate Interfaz
+
+Interfaz -> Gestor : 2: validarCredenciales()
+activate Gestor
+
+Gestor -> AdminEnt : 3: buscarDatosAdmin()
+activate AdminEnt
+AdminEnt -> BD : 4: buscarDatosAdmin()
+activate BD
+BD --> AdminEnt : 5: devolverDatosAdmin()
+deactivate BD
+AdminEnt --> Gestor : 6: devolverDatosAdmin()
+deactivate AdminEnt
+
+Gestor --> Interfaz : 7: confirmarCredenciales()
+
+Interfaz -> Gestor : 8: buscarEmpresa()
+Gestor -> Empresa : 9: buscarEmpresa()
+activate Empresa
+Empresa -> BD : 10: buscarEmpresa()
+activate BD
+BD --> Empresa : 11: devolverDatosEmpresa()
+deactivate BD
+Empresa --> Gestor : 12: devolverDatosEmpresa()
+deactivate Empresa
+Gestor --> Interfaz : 13: devolverDatosEmpresa()
+
+Interfaz -> Interfaz : 14: refrescarInterfaz()
+Interfaz -> Interfaz : 15: mostrarDatosEmpresa()
+
+Admin -> Interfaz : 16: seleccionarEmpresa()
+
+Interfaz -> Gestor : 17: buscarResponsable()
+Gestor -> Responsable : 18: buscarResponsable()
+activate Responsable
+Responsable -> BD : 19: buscarResponsable()
+activate BD
+BD --> Responsable : 20: devolverDatosResponsable()
+deactivate BD
+Responsable --> Gestor : 21: devolverDatosResponsable()
+deactivate Responsable
+Gestor --> Interfaz : 22: devolverDatosResponsable()
+
+Interfaz -> Interfaz : 23: mostrarDatosResponsable()
+
+Admin -> Interfaz : 24: seleccionarResponsable()
+Admin -> Interfaz : 25: seleccionarAreasAfines()
+Admin -> Interfaz : 26: confirmarRegistro()
+
+Interfaz -> Gestor : 27: confirmarRegistro()
+
+Gestor -> Gestor : 28: validarIntegridadDatos()
+
+Gestor -> Empresa : 29: agregarResponsable()
+activate Empresa
+Empresa -> Responsable : 30: constructorResponsable()
+activate Responsable
+Responsable -> BD : 31: guardarResponsable()
+activate BD
+BD --> Responsable : 32: datosGuardadoExitoso()
+deactivate BD
+Responsable -> AreaProfesional : 33: asignarAfinidad()
+activate AreaProfesional
+AreaProfesional -> BD : 34: guardarAreasAfines()
+activate BD
+BD --> AreaProfesional : 35: confirmarGuardado()
+deactivate BD
+AreaProfesional --> Responsable : 36: confirmarAsociacion()
+deactivate AreaProfesional
+Responsable --> Empresa : 37: confirmarRegistroExitoso()
+deactivate Responsable
+Empresa --> Gestor : 38: confirmarRegistroExitoso()
+deactivate Empresa
+
+Gestor --> Interfaz : 39: confirmarRegistroExitoso()
+deactivate Gestor
+
+Interfaz -> Interfaz : 40: mostrarRegistroExitoso()
+deactivate Interfaz
+
+@enduml

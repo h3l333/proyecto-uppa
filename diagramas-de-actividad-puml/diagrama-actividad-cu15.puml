@@ -1,0 +1,29 @@
+@startuml Diagrama_Actividad_CU15
+title CU-15 - Notificar Alta de Práctica
+
+|Sistema|
+start
+:Detectar confirmación exitosa de registro;
+fork
+  :Recuperar datos alumno;
+fork again
+  :Recuperar datos docente;
+fork again
+  :Recuperar datos responsable;
+end fork
+
+if (Datos de contacto completos?) then (Si)
+  :Redactar cuerpos de correos;
+  :Enviar correos;
+  :Validar envío exitoso;
+  if (Envío exitoso?) then (Si)
+    :Registrar en log envíos;
+  else (No)
+    :Informar sobre falla al administrador;
+  endif
+else (No)
+  :Notificar falta de datos al administrador del sistema;
+endif
+stop
+
+@enduml

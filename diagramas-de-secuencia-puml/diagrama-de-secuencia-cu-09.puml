@@ -1,0 +1,51 @@
+@startuml Diagrama_Secuencia_CU09
+title CU-09 Consultar Convenios Próximos a Vencer
+
+actor Administrador
+boundary ": InterfazConsultarConvenios" as Interfaz
+control ": GestorConsultarConvenios" as Gestor
+entity ": Administrador" as AdminEnt
+entity ": Convenios" as Convenios
+database "BD" as BD
+
+Administrador -> Interfaz : 1: iniciarOpcionConsulta()
+activate Interfaz
+
+Interfaz -> Gestor : 2: validarCredenciales()
+activate Gestor
+
+Gestor -> AdminEnt : 3: buscarDatosAdmin()
+activate AdminEnt
+AdminEnt --> Gestor : 4: devolverDatosAdmin()
+deactivate AdminEnt
+
+Gestor --> Interfaz : 5: confirmarCredenciales()
+
+Interfaz -> Gestor : 6: buscarConvenios()
+Gestor -> Convenios : 7: buscarConvenios()
+activate Convenios
+Convenios -> BD : 8: buscarConvenios()
+activate BD
+BD --> Convenios : 9: devolverDatosConvenios()
+deactivate BD
+Convenios --> Gestor : 10: devolverDatosConvenios()
+deactivate Convenios
+Gestor --> Interfaz : 11: devolverDatosConvenios()
+
+Interfaz -> Interfaz : 12: refrescarInterfaz()
+Interfaz -> Interfaz : 13: mostrarDatosConvenios()
+
+Administrador -> Interfaz : 14: seleccionarFiltros()
+
+loop hayFiltro
+  Interfaz -> Gestor : 15: seleccionarFiltros()
+  Interfaz -> Gestor : 16: validarDatosObligatorios()
+  Gestor -> Gestor : 17: validarIntegridadDatos()
+  Gestor --> Interfaz : 18: devolverDatosConveniosPAVencer()
+  Interfaz -> Interfaz : 19: mostrarDatosConveniosPAVencer()
+end
+
+deactivate Gestor
+deactivate Interfaz
+
+@enduml

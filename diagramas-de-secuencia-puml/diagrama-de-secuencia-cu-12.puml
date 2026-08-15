@@ -1,0 +1,45 @@
+@startuml Diagrama_Secuencia_CU12
+title CU-12 Verificar Cupo Disponible en Empresa Publica
+
+actor Alumno
+boundary "InterfazVerificarCupo" as Interfaz
+control "GestorVerificarCupo" as Gestor
+entity "Empresa" as Empresa
+database "Base de datos" as BD
+
+Alumno -> Interfaz : 1: seleccionarEmpresa()
+activate Interfaz
+
+Interfaz -> Gestor : 2: seleccionarEmpresa()
+activate Gestor
+
+Gestor -> Empresa : 3: obtenerSector()
+activate Empresa
+Empresa -> BD : 4: obtenerSector()
+activate BD
+BD --> Empresa : 5: sectorObtenido()
+deactivate BD
+Empresa --> Gestor : 6: devolverSector()
+deactivate Empresa
+
+Gestor -> Gestor : 7: verificarEmpresaPublica()
+
+Alumno -> Interfaz : 8: iniciarVerificacion()
+Interfaz -> Gestor : 9: iniciarVerificacion()
+
+Gestor -> Empresa : 10: obtenerCuposDisponibles()
+activate Empresa
+Empresa -> BD : 11: obtenerCuposDisponibles()
+activate BD
+BD --> Empresa : 12: devolverResultadosCupos()
+deactivate BD
+Empresa --> Gestor : 13: devolverCupos()
+deactivate Empresa
+
+Gestor -> Gestor : 14: validarDisponibilidad()
+
+Gestor --> Interfaz : 15: confirmarCuposDisponibles()
+deactivate Gestor
+deactivate Interfaz
+
+@enduml

@@ -1,0 +1,62 @@
+@startuml Diagrama_Actividad_CU07
+title CU-07 - Asignar Responsable a Empresa
+
+|Administrador|
+start
+:Acceder a la opción Asignar Responsable a Empresa;
+
+|Sistema|
+:Informar empresas vigentes;
+
+|Administrador|
+label seleccionar_empresa
+:Seleccionar empresa;
+
+|Sistema|
+:Validar empresa seleccionada;
+if (Empresa válida?) then (No)
+  :Informar empresa no válida;
+  |Administrador|
+  goto seleccionar_empresa
+else (Si)
+endif
+
+:Mostrar responsables asociados;
+:Mostrar mensaje de incorporar nuevo responsable;
+if (Incorporar nuevo responsable?) then (Si)
+  |Administrador|
+  label ingresar_datos_responsable
+  :Ingresar datos del nuevo responsable;
+
+  |Sistema|
+  :Validar datos obligatorios;
+  if (Datos obligatorios válidos?) then (No)
+    |Administrador|
+    goto ingresar_datos_responsable
+  else (Si)
+  endif
+else (No)
+endif
+
+|Administrador|
+label seleccionar_responsable
+:Seleccionar responsable;
+
+|Sistema|
+:Validar responsable no asociado a la empresa;
+if (Responsable ya asociado?) then (Si)
+  :Informar responsable ya asociado a la empresa;
+  |Administrador|
+  goto seleccionar_responsable
+else (No)
+endif
+
+|Administrador|
+:Confirmar asociación;
+
+|Sistema|
+:Asociar responsable a empresa;
+:Mostrar mensaje confirmación de asociación de responsable;
+stop
+
+@enduml

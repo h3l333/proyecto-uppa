@@ -1,0 +1,54 @@
+@startuml Diagrama_Actividad_CU01
+title CU-01 - Registrar Práctica Profesional
+
+start
+:Seleccionar registro de práctica;
+fork
+  :Mostrar interfaz;
+fork again
+  :Cargar empresas registradas;
+end fork
+:Seleccionar empresa;
+fork
+  :Verificar convenios vigentes;
+fork again
+  :Cargar convenios vigentes;
+end fork
+
+label seleccionar_convenio
+:Seleccionar convenio;
+:Validar vigencia convenio;
+if (Convenio vigente?) then (Si)
+else (No)
+  goto seleccionar_convenio
+endif
+
+repeat
+  :Ingresar fechas;
+repeat while (Práctica en mismo ciclo || fecha inválida?) is (Si) not (No)
+
+if (Es sector público?) then (Si)
+  if (Tiene cupo?) then (No)
+    goto seleccionar_convenio
+  else (Si)
+  endif
+else (No)
+endif
+
+:Validar existencia tutor compatible;
+:Validar existencia responsable;
+if (Existe al menos un tutor && existe un responsable?) then (Si)
+  :Seleccionar responsable;
+  :Confirmar registración;
+  :Registrar práctica con estado pendiente;
+  if (Registro exitoso?) then (Si)
+    :Informar registro exitoso;
+  else (No)
+    :Informar error;
+  endif
+  stop
+else (No)
+  goto seleccionar_convenio
+endif
+
+@enduml

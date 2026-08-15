@@ -1,0 +1,40 @@
+@startuml Diagrama_Actividad_CU02
+title CU-02 - Generar Informe de Avance
+
+start
+:Acceder a "Generar Informe de Avance";
+
+label mostrar_listado
+:Mostrar listado de prácticas;
+repeat
+  :Seleccionar práctica;
+repeat while (Práctica en curso?) is (No) not (Si)
+
+:Mostrar formulario;
+label formulario
+fork
+  repeat
+    :Ingresar fecha;
+  repeat while (Fecha inválida || fecha fuera del período?) is (Si) not (No)
+fork again
+  :Ingresar descripción de tareas;
+fork again
+  :Ingresar evaluación parcial;
+end fork
+:Confirmar ingresos;
+:Validar datos obligatorios;
+if (Datos obligatorios faltantes o inválidos?) then (Si)
+  goto formulario
+else (No)
+endif
+
+:Registrar Informe de Avance;
+if (Registro exitoso?) then (Si)
+  :Informar registro exitoso;
+  stop
+else (No)
+  :Informar error;
+  goto mostrar_listado
+endif
+
+@enduml

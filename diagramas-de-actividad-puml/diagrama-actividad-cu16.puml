@@ -1,0 +1,34 @@
+@startuml Diagrama_Actividad_CU16
+title CU-16 - Notificar sobre Vencimiento
+
+|Sistema|
+start
+:Iniciar proceso de verificación;
+fork
+  :Recuperar correo responsable;
+fork again
+  :Recuperar convenios con vencimiento próximo;
+fork again
+  :Recuperar correo administrador;
+end fork
+
+if (Convenios por vencer existentes?) then (Si)
+  :Verificar datos de contacto;
+  if (Datos existentes y válidos?) then (Si)
+    :Redactar cuerpos de correos;
+    :Enviar correos;
+    :Validar envío exitoso;
+    if (Envío exitoso?) then (Si)
+      :Registrar en log envíos;
+    else (No)
+      :Informar sobre falla al administrador;
+    endif
+  else (No)
+    :Informar sobre falla al administrador;
+  endif
+else (No)
+  :Notificar falta de convenios por vencer;
+endif
+stop
+
+@enduml

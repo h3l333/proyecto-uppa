@@ -1,0 +1,20 @@
+@startuml Diagrama_Actividad_CU14
+title CU-14 - Seleccionar Responsable Compatible
+
+|Sistema|
+start
+:Recibir práctica profesional seleccionada;
+:Verificar existencia de responsables registrados;
+if (Responsables registrados existentes?) then (Si)
+  :Filtrar responsables por área;
+  if (Existen responsables afines?) then (Si)
+    :Proponer responsables compatibles;
+  else (No)
+    :Informar falta de responsables con conocimientos afines;
+  endif
+else (No)
+  :Informar falta de responsables registrados;
+endif
+stop
+
+@enduml

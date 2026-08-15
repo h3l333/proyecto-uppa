@@ -1,0 +1,67 @@
+@startuml Diagrama_Comunicacion_CU06
+' Diagrama de comunicacion - CU-06 Registrar Convenio
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor "Administrador del Sistema" as ActorAdmin
+
+object "InterfazRegistroConvenio" as Interfaz
+object "GestorRegistroConvenio" as Gestor
+object "Administrador" as AdminEntidad
+object "Empresa" as Empresa
+object "Convenio" as Convenio
+
+ActorAdmin -- Interfaz
+Interfaz -- Gestor
+Gestor -- AdminEntidad
+Gestor -- Empresa
+Gestor -- Convenio
+
+note on link
+  1: iniciarRegistroConvenio()
+  15: seleccionarEmpresa()
+  17: ingresarFechas()
+  21: confirmarRegistro()
+end note
+
+note on link
+  2: validarCredenciales()
+  7: confirmarCredenciales()
+  8: buscarEmpresas()
+  13: retornarEmpresas()
+  14: refrescarInterfaz()
+  16: refrescarInterfaz()
+  18: validarDatosObligatorios()
+  19: validarIntegridadDatos()
+  20: validarConsistenciaFechas()
+  22: confirmarRegistro()
+  30: confirmarRegistroExitoso()
+  31: refrescarInterfaz()
+end note
+
+note on link
+  3: buscarDatosAdmin()
+  6: retornarDatosAdmin()
+end note
+
+note on link
+  9: buscarEmpresas()
+  12: retornarEmpresas()
+  28: agregarConvenio()
+  29: confirmarActualizacionExitosa()
+end note
+
+note on link
+  23: confirmarRegistro()
+  24: constructorConvenio()
+  27: confirmarRegistroExitoso()
+end note
+
+@enduml

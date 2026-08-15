@@ -1,0 +1,43 @@
+@startuml Diagrama_Secuencia_CU14
+title CU-14 Seleccionar Responsable Compatible
+
+actor Alumno
+boundary ": InterfazRegistroPractica" as Interfaz
+control ": GestorRegistroPractica" as Gestor
+entity ": Practica" as Practica
+entity ": ResponsableEmpresa" as Responsable
+database "Base de datos" as BD
+
+Alumno -> Interfaz : 1: seleccionarPractica()
+activate Interfaz
+
+Interfaz -> Gestor : 2: seleccionarResponsable()
+activate Gestor
+
+Gestor -> Practica : 3: obtenerPracticaSeleccionada()
+activate Practica
+Practica -> BD : 4: obtenerPracticaSeleccionada()
+activate BD
+BD --> Practica : 5: devolverPracticaSeleccionada()
+deactivate BD
+Practica --> Gestor : 6: devolverPracticaSeleccionada()
+deactivate Practica
+
+Gestor -> Responsable : 7: buscarResponsables()
+activate Responsable
+Responsable -> BD : 8: buscarResponsables()
+activate BD
+BD --> Responsable : 9: devolverResponsables()
+deactivate BD
+Responsable --> Gestor : 10: devolverResponsables()
+deactivate Responsable
+
+Gestor -> Gestor : 11: filtrarResponsablesPorArea()
+
+Gestor --> Interfaz : 12: devolverResponsablesCompatibles()
+deactivate Gestor
+
+Interfaz -> Interfaz : 13: refrescarInterfaz()
+deactivate Interfaz
+
+@enduml

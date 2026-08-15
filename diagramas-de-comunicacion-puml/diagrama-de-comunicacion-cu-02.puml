@@ -1,0 +1,50 @@
+@startuml Diagrama_Comunicacion_CU02
+' Diagrama de comunicacion - CU-02 Generar Informe de Avance
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor "Tutor / Responsable de Empresa" as Actor
+
+object ": Interfaz Informe de Avance" as Interfaz
+object ": Gestor de Generacion de Informe" as Gestor
+object ": Informe de Avance" as InformeAvance
+object ": Práctica" as Practica
+
+Actor -- Interfaz
+Interfaz -- Gestor
+Gestor -- InformeAvance
+Gestor -- Practica
+
+note on link
+  1: accederInterfazInformes()
+  9: seleccionarPractica()
+  11: ingresarFecha()
+  12: ingresarDescripcion()
+  13: ingresarEvaluacionParcial()
+  14: confirmar()
+end note
+
+note on link
+  2: solicitarPracticas()
+  7: devolverPracticas()
+  8: refrescarInterfaz()
+  15: informarConfirmacion()
+  21: confirmarRegistro()
+end note
+
+note on link
+  17: generarInformeAvance()
+end note
+
+note on link
+  3: solicitarPracticas()
+end note
+
+@enduml

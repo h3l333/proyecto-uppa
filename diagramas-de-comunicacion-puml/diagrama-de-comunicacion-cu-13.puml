@@ -1,0 +1,43 @@
+@startuml Diagrama_Comunicacion_CU13
+' Diagrama de comunicacion - CU-13 Proponer Tutor
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+' Corregido: CU-13 es un caso de uso Include cuyo actor principal es el
+' sistema (ver especificacion); se elimina el actor Alumno y se representa
+' el disparo desde el gestor de CU-01, en sincronia con
+' diagrama-de-secuencia-cu-13.puml.
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+object ": GestorRegistroPractica" as GestorCU01
+object "GestorPropuestaTutor" as Gestor
+object "PracticaProfesional" as PracticaProfesional
+object "Docente" as Docente
+
+GestorCU01 -- Gestor
+Gestor -- PracticaProfesional
+Gestor -- Docente
+
+note on link
+  1: proponerTutorCompatible(practicaSeleccionada)
+  12: tutorPropuesto()
+end note
+
+note on link
+  6: obtenerAreaProfesional()
+  9: devolverAreaProfesional()
+  10: filtrarDocentesPorArea()
+  11: determinarTutorCompatible()
+end note
+
+note on link
+  2: buscarDocentesRegistrados()
+  5: devolverDocentes()
+end note
+
+@enduml

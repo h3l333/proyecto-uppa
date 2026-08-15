@@ -1,0 +1,57 @@
+@startuml Diagrama_Comunicacion_CU16
+' Diagrama de comunicacion - CU-16 Notificar sobre Vencimiento
+' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
+' por lo que se representa como diagrama de objetos: un enlace (linea) por
+' cada par de participantes que interactuan, con nota adjunta listando los
+' mensajes numerados intercambiados en ese enlace (orden = secuencia UML).
+' Corregido: la especificacion indica "Base (automatico)"; se reemplaza al
+' Administrador como disparador manual por un disparo automatico
+' (programador de tareas), en sincronia con diagrama-de-secuencia-cu-16.puml.
+hide circle
+skinparam object {
+  BackgroundColor #ADD1E6
+  BorderColor #2C3E50
+}
+
+actor "Sistema de Correo" as SistemaCorreo
+
+object ": ProgramadorDeTareas" as Scheduler
+object ": InterfazAdministrador" as InterfazAdmin
+object ": GestorConvenios" as Gestor
+object ": Convenio" as Convenio
+object ": Empresa" as Empresa
+object ": InterfazSalidaCorreo" as InterfazSalida
+
+Scheduler -- Gestor
+note on link
+  1: iniciarProcesoDeVerificacion()
+end note
+
+Gestor -- InterfazAdmin
+note on link
+  14: mostrarResumen()
+end note
+
+Gestor -- Convenio
+note on link
+  2: buscarConveniosProximos()
+end note
+
+Gestor -- Empresa
+note on link
+  6: solicitarDatosEmpresa()
+  9: devolverDatosEmpresa()
+end note
+
+Gestor -- InterfazSalida
+note on link
+  11: mostrarPeticionEnvioAlerta(reporte)
+  13: notificarExitoEnvio()
+end note
+
+InterfazSalida -- SistemaCorreo
+note on link
+  12: enviarAlerta(reporte)
+end note
+
+@enduml

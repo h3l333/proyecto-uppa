@@ -1,0 +1,65 @@
+@startuml Diagrama_Secuencia_CU02
+title CU-02 Generar Informe de Avance
+
+actor "Tutor / Responsable de Empresa" as Actor
+boundary ": Interfaz Informe de Avance" as Interfaz
+control ": Gestor de Generacion de Informe" as Gestor
+entity ": Practica" as Practica
+entity ": Informe de Avance" as Informe
+database "Base de Datos" as BD
+
+Actor -> Interfaz : 1: accederInterfazInformes()
+activate Interfaz
+
+Interfaz -> Gestor : 2: solicitarPracticas()
+activate Gestor
+
+Gestor -> Practica : 3: solicitarPracticas()
+activate Practica
+Practica -> BD : 4: solicitarPracticas()
+activate BD
+BD --> Practica : 5: devolverPracticas()
+deactivate BD
+Practica --> Gestor : 6: devolverPracticas()
+deactivate Practica
+
+Gestor --> Interfaz : 7: devolverPracticas()
+
+Interfaz -> Interfaz : 8: refrescarInterfaz()
+
+Actor -> Interfaz : 9: seleccionarPractica()
+
+Interfaz -> Interfaz : 10: refrescarInterfaz()
+
+Actor -> Interfaz : 11: ingresarFecha()
+Actor -> Interfaz : 12: ingresarDescripcion()
+Actor -> Interfaz : 13: ingresarEvaluacionParcial()
+Actor -> Interfaz : 14: confirmar()
+
+Interfaz -> Gestor : 15: informarConfirmacion()
+
+note over Gestor
+  El gestor/controlador valida
+  para cada campo que lleno el actor
+end note
+
+loop existeSigCampo
+  Gestor -> Gestor : 16: validarDatosIngresados()
+end
+
+Gestor -> Informe : 17: generarInformeAvance()
+activate Informe
+Informe -> BD : 18: generarInformeAvance()
+activate BD
+BD --> Informe : 19: confirmarRegistro()
+deactivate BD
+Informe --> Gestor : 20: confirmarRegistro()
+deactivate Informe
+
+Gestor --> Interfaz : 21: confirmarRegistro()
+deactivate Gestor
+
+Interfaz -> Interfaz : 22: mostrarRegistroExitoso()
+deactivate Interfaz
+
+@enduml
