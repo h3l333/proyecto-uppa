@@ -16,7 +16,7 @@ Documentación de análisis y diseño (UML) del sistema de gestión de práctica
 
 Todos los diagramas están en formato [PlantUML](https://plantuml.com/) (`.puml`). Pueden renderizarse con la extensión de PlantUML de VS Code, con el plugin de IntelliJ, o con el servidor local/online de PlantUML.
 
-Un [workflow de GitHub Actions](.github/workflows/render-diagrams.yml) genera automáticamente un `.svg` por cada `.puml` en cada push a `main`. El `README.md` de cada subcarpeta de diagramas ([actividad](diagramas-de-actividad-puml/README.md), [comunicación](diagramas-de-comunicacion-puml/README.md), [secuencia](diagramas-de-secuencia-puml/README.md)) los embebe para poder verlos directamente en GitHub sin instalar nada.
+Los `.svg` se renderizan al vuelo mediante el [proxy de PlantUML](https://www.plantuml.com/plantuml/proxy), que lee el `.puml` crudo desde GitHub y devuelve el SVG. El `README.md` de cada subcarpeta de diagramas ([actividad](diagramas-de-actividad-puml/README.md), [comunicación](diagramas-de-comunicacion-puml/README.md), [secuencia](diagramas-de-secuencia-puml/README.md)) los embebe así para poder verlos directamente en GitHub sin instalar nada.
 
 ## Actores del sistema
 
@@ -50,7 +50,7 @@ Un [workflow de GitHub Actions](.github/workflows/render-diagrams.yml) genera au
 
 CU-01 incluye a CU-10, CU-11, CU-13, CU-14 y CU-15; CU-12 extiende a CU-01.
 
-![Diagrama de casos de uso](diagrama-casos-uso.svg)
+![Diagrama de casos de uso](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/h3l333/proyecto-uppa/main/diagrama-casos-uso.puml&fmt=svg)
 
 ## Modelo de dominio (resumen)
 
@@ -59,7 +59,7 @@ CU-01 incluye a CU-10, CU-11, CU-13, CU-14 y CU-15; CU-12 extiende a CU-01.
 - **Practica** es la entidad central: se vincula a un `Alumno`, un `TutorAcademico`, un `ResponsableEmpresa`, un `Convenio`, un `CicloLectivo`, y acumula `InformeDeAvance`s y `Notificacion`es. Se valida contra `ReglasDeNegocios` (límite de prácticas por año).
 - **AreaProfesional** conecta `TutorAcademico` y `ResponsableEmpresa` según afinidad, y se usa para proponer tutores/responsables compatibles durante el registro de una práctica.
 
-![Diagrama de clases](diagrama-clases.svg)
+![Diagrama de clases](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/h3l333/proyecto-uppa/main/diagrama-clases.puml&fmt=svg)
 
 Ver [diagrama-clases.puml](diagrama-clases.puml) para el detalle completo de atributos, métodos y cardinalidades.
 
