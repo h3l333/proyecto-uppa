@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Instalar PlantUML
-        run: sudo apt-get update && sudo apt-get install -y plantuml
+        run: sudo apt-get update && sudo apt-get install -y plantuml graphviz
 
       - name: Renderizar todos los .puml a SVG
         run: find . -name '*.puml' -print0 | xargs -0 -n1 plantuml -tsvg
