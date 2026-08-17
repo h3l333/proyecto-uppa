@@ -4,7 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - '**/*.puml'
+      - "**/*.puml"
+      - "**/*.yml"
   workflow_dispatch:
 
 permissions:
@@ -27,4 +28,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: renderizar diagramas PlantUML [skip ci]"
-          file_pattern: '**/*.svg'
+          file_pattern: "**/*.svg"
