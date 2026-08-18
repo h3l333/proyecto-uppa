@@ -11,14 +11,14 @@ skinparam object {
   BorderColor #2C3E50
 }
 
-actor "Tutor / Responsable de Empresa" as Actor
-
 object ": InterfazConsultaDePractica" as Interfaz
 object ": GestorConsultaDePractica" as Gestor
 object ": InformeDeAvance" as InformeAvance
 object ": Responsable" as Responsable
 object ": Actor" as ActorEntidad
 object ": Practica" as Practica
+
+actor "Tutor / Responsable de Empresa" as Actor
 
 Actor -- Interfaz
 Interfaz -- Gestor

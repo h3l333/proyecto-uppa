@@ -10,13 +10,13 @@ skinparam object {
   BorderColor #2C3E50
 }
 
-actor Alumno
-
 object ": Interfaz RegistrarPráctica" as Interfaz
 object ": Gestor RegistroPráctica" as Gestor
 object ": Convenio" as Convenio
 object ": Empresa" as Empresa
 object ": Práctica" as Practica
+
+actor Alumno
 
 Alumno -- Interfaz
 note on link

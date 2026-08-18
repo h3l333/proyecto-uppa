@@ -11,11 +11,11 @@ skinparam object {
   BorderColor #2C3E50
 }
 
-actor Alumno
-
 object "InterfazVerificarCupo" as Interfaz
 object "GestorVerificarCupo" as Gestor
 object "Empresa" as Empresa
+
+actor Alumno
 
 Alumno -- Interfaz
 Interfaz -- Gestor

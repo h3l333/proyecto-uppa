@@ -11,14 +11,14 @@ skinparam object {
   BorderColor #2C3E50
 }
 
-actor "Administrador del Sistema" as ActorAdmin
-
 object "InterfazAsignarResponsable" as Interfaz
 object "GestorAsignarResponsable" as Gestor
 object "Administrador" as AdminEntidad
 object "Empresa" as Empresa
 object "Responsable" as Responsable
 object "AreaProfesional" as AreaProfesional
+
+actor "Administrador del Sistema" as ActorAdmin
 
 ActorAdmin -- Interfaz
 Interfaz -- Gestor

@@ -10,13 +10,13 @@ skinparam object {
   BorderColor #2C3E50
 }
 
-actor "Administrador del Sistema" as ActorAdmin
-
 object "InterfazRegistroConvenio" as Interfaz
 object "GestorRegistroConvenio" as Gestor
 object "Administrador" as AdminEntidad
 object "Empresa" as Empresa
 object "Convenio" as Convenio
+
+actor "Administrador del Sistema" as ActorAdmin
 
 ActorAdmin -- Interfaz
 Interfaz -- Gestor

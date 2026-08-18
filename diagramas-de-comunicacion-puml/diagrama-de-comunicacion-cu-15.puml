@@ -10,8 +10,6 @@ skinparam object {
   BorderColor #2C3E50
 }
 
-actor Alumno
-actor "Sistema de correo" as SistemaCorreo
 entity ": Alumno" as AlumnoInvolucrado
 entity ": Tutor" as Tutor
 entity ": Responsable" as Responsable
@@ -19,6 +17,9 @@ entity ": Responsable" as Responsable
 object ": InterfazDeRegistracion" as Interfaz
 object ": GestorDeNotificaciones" as Gestor
 object ": PracticaProfesional" as Practica
+
+actor Alumno
+actor "Sistema de correo" as SistemaCorreo
 
 Alumno -- Interfaz
 note on link

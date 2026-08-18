@@ -13,14 +13,14 @@ skinparam object {
   BorderColor #2C3E50
 }
 
-actor "Sistema de Correo" as SistemaCorreo
-
 object ": ProgramadorDeTareas" as Scheduler
 object ": InterfazAdministrador" as InterfazAdmin
 object ": GestorConvenios" as Gestor
 object ": Convenio" as Convenio
 object ": Empresa" as Empresa
 object ": InterfazSalidaCorreo" as InterfazSalida
+
+actor "Sistema de Correo" as SistemaCorreo
 
 Scheduler -- Gestor
 note on link
