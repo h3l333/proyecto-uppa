@@ -1,0 +1,11 @@
+#!/bin/sh
+changed=$(git diff --cached --name-only --diff-filter=ACM -- '*.puml')
+[ -z "$changed" ] && exit 0
+
+for f in $changed; do
+  sh scripts/update-diagram-cache.sh "$f"
+done
+
+readmes=$(git diff --name-only -- '*/README.md' README.md)
+[ -n "$readmes" ] && git add $readmes
+exit 0
