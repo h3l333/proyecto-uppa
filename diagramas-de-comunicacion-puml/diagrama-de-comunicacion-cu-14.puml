@@ -1,4 +1,5 @@
 @startuml Diagrama_Comunicacion_CU14
+allowmixing
 ' Diagrama de comunicacion - CU-14 Seleccionar Responsable Compatible
 ' PlantUML no tiene un renderer nativo para diagramas de comunicacion UML,
 ' por lo que se representa como diagrama de objetos: un enlace (linea) por
