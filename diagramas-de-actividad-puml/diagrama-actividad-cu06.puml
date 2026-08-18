@@ -1,59 +1,65 @@
-@startuml Diagrama_Actividad_CU06
+@startuml
 title CU-06 - Registrar Convenio
 
-|Administrador|
+|Administrador del Sistema|
 start
-:Acceder a la opción Registrar Convenio;
+:Acceder a "Registrar Convenio";
 
 |Sistema|
 :Mostrar formulario de alta de convenio;
 
-|Administrador|
-label seleccionar_empresa
+|Administrador del Sistema|
 :Seleccionar empresa;
 
 |Sistema|
-:Validar empresa seleccionada;
-if (Empresa válida?) then (No)
-  :Informar empresa no válida;
-  |Administrador|
-  goto seleccionar_empresa
-else (Si)
-endif
+while (¿Empresa seleccionada válida?) is (No)
+  :Informar que debe seleccionarse
+  una empresa válida;
 
-|Administrador|
-label ingresar_fechas
-:Ingresar fecha de inicio y duración o fecha de finalización;
+  |Administrador del Sistema|
+  :Corregir selección de empresa;
+
+  |Sistema|
+endwhile (Sí)
+
+|Administrador del Sistema|
+:Ingresar fecha de inicio y
+duración o fecha de finalización;
 
 |Sistema|
+:Validar datos obligatorios;
+
+while (¿Datos obligatorios completos?) is (No)
+  :Informar qué campos faltan completar;
+
+  |Administrador del Sistema|
+  :Completar los datos faltantes;
+
+  |Sistema|
+  :Validar datos obligatorios;
+endwhile (Sí)
+
 :Validar consistencia de fechas;
-if (Fechas válidas?) then (No)
-  :Informar fechas no válidas;
-  |Administrador|
-  goto ingresar_fechas
-else (Si)
-endif
 
-|Administrador|
-label ingresar_datos
-:Ingresar datos obligatorios;
+while (¿Fecha de finalización posterior a la fecha de inicio?) is (No)
+  :Informar que la fecha de finalización
+  debe ser posterior a la fecha de inicio;
 
-|Sistema|
-:Validar datos obligatorios completos;
-if (Datos obligatorios válidos?) then (No)
-  :Informar datos obligatorios no válidos;
-  |Administrador|
-  goto ingresar_datos
-else (Si)
-endif
+  |Administrador del Sistema|
+  :Corregir información de las fechas;
 
-|Administrador|
-:Confirmar registro de convenio;
+  |Sistema|
+  :Validar consistencia de fechas;
+endwhile (Sí)
+
+|Administrador del Sistema|
+:Confirmar operación;
 
 |Sistema|
 :Registrar convenio;
-:Asociar a empresa;
-:Mostrar mensaje confirmación de registro de convenio;
-stop
+:Asociar convenio a la empresa seleccionada;
+:Informar que el convenio fue
+registrado correctamente;
 
+stop
 @enduml

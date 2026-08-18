@@ -1,10 +1,19 @@
-@startuml Diagrama_Actividad_CU03
-title CU-03 - Consultar Estado
+@startuml
+title CU-03 - Consultar Estado de Práctica Profesional
 
+|Alumno|
 start
-:Seleccionar "Consultar estado de práctica profesional";
-:Recuperar práctica;
-:Mostrar datos práctica;
-stop
+:Seleccionar "Consultar estado\nde práctica profesional";
 
+|Sistema|
+:Recuperar la práctica profesional\nregistrada correspondiente al alumno;
+
+:Obtener datos asociados;
+
+:Mostrar el estado de la práctica\ny los datos asociados;
+
+|Alumno|
+:Visualizar información de la práctica;
+
+stop
 @enduml

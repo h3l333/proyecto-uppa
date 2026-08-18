@@ -1,54 +1,95 @@
-@startuml Diagrama_Actividad_CU01
+@startuml
 title CU-01 - Registrar Práctica Profesional
 
+|Alumno|
 start
-:Seleccionar registro de práctica;
-fork
-  :Mostrar interfaz;
-fork again
-  :Cargar empresas registradas;
-end fork
+:Accede a "Registrar Práctica Profesional";
+
+|Sistema|
+:Mostrar interfaz de registro;
+:Cargar empresas registradas;
+
+|Alumno|
 :Seleccionar empresa;
-fork
-  :Verificar convenios vigentes;
-fork again
+
+|Sistema|
+:Verificar convenios vigentes;
+
+if (¿Existen convenios vigentes?) then (Sí)
   :Cargar convenios vigentes;
-end fork
+  :Mostrar convenios asociados;
+else (No)
+  :Informar que no existe un convenio vigente;
+  stop
+endif
 
-label seleccionar_convenio
+|Alumno|
 :Seleccionar convenio;
-:Validar vigencia convenio;
-if (Convenio vigente?) then (Si)
+:Ingresar fecha de inicio y fecha de fin;
+
+|Sistema|
+if (¿Fecha de fin > fecha de inicio?) then (Sí)
 else (No)
-  goto seleccionar_convenio
-endif
-
-repeat
-  :Ingresar fechas;
-repeat while (Práctica en mismo ciclo || fecha inválida?) is (Si) not (No)
-
-if (Es sector público?) then (Si)
-  if (Tiene cupo?) then (No)
-    goto seleccionar_convenio
-  else (Si)
-  endif
-else (No)
-endif
-
-:Validar existencia tutor compatible;
-:Validar existencia responsable;
-if (Existe al menos un tutor && existe un responsable?) then (Si)
-  :Seleccionar responsable;
-  :Confirmar registración;
-  :Registrar práctica con estado pendiente;
-  if (Registro exitoso?) then (Si)
-    :Informar registro exitoso;
+  :Informar error en las fechas;
+  |Alumno|
+  :Corregir las fechas;
+  |Sistema|
+  if (¿Fecha de fin > fecha de inicio?) then (Sí)
   else (No)
-    :Informar error;
+    :Informar error en las fechas;
+    stop
   endif
+endif
+
+:Verificar que el alumno no tenga otra práctica
+en el mismo ciclo lectivo;
+
+if (¿Ya posee una práctica en el ciclo?) then (Sí)
+  :Informar que ya tiene una práctica registrada;
   stop
 else (No)
-  goto seleccionar_convenio
+endif
+
+if (¿Empresa del sector público?) then (Sí)
+  :Verificar cupo disponible;
+
+  if (¿Hay cupo disponible?) then (Sí)
+  else (No)
+    :Informar que no hay cupo disponible;
+    stop
+  endif
+else (No)
+endif
+
+:Verificar existencia de tutor compatible;
+
+if (¿Existe tutor compatible?) then (Sí)
+  :Seleccionar y asignar tutor académico;
+else (No)
+  :Informar que no hay tutor disponible;
+  stop
+endif
+
+:Cargar responsables de empresa compatibles;
+:Mostrar responsables compatibles;
+
+if (¿Existen responsables compatibles?) then (Sí)
+  |Alumno|
+  :Seleccionar responsable;
+  :Confirmar registro;
+
+  |Sistema|
+  :Registrar práctica con estado "Pendiente";
+  :Asociar práctica a empresa, convenio,
+  tutor y responsable;
+  :Enviar notificación por correo
+  al alumno, tutor y responsable;
+  :Informar que la operación finalizó correctamente;
+  stop
+else (No)
+  |Sistema|
+  :Informar que no hay responsables compatibles;
+  stop
 endif
 
 @enduml

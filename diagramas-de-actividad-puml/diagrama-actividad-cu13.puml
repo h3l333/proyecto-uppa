@@ -1,20 +1,40 @@
-@startuml Diagrama_Actividad_CU13
+@startuml
 title CU-13 - Proponer Tutor Académico Compatible
 
-|Sistema|
+|Sistema de Gestión de Prácticas UPPA|
 start
-:Recibir práctica profesional seleccionada;
-:Verificar existencia de docentes registrados;
-if (Docentes registrados existentes?) then (Si)
-  :Filtrar docentes por compatibilidad;
-  if (Existen docentes compatibles?) then (Si)
-    :Proponer tutor compatible;
-  else (No)
-    :Informar falta de docentes compatibles;
-  endif
-else (No)
-  :Informar falta de docentes;
-endif
-stop
 
+:Recibir la práctica profesional
+seleccionada por el alumno;
+
+:Cargar docentes de la universidad
+registrados en el sistema;
+
+if (¿Existen docentes registrados?) then (Sí)
+  :Filtrar docentes con conocimientos
+  en el área seleccionada;
+
+  if (¿Existen tutores compatibles?) then (Sí)
+    :Proponer tutor académico compatible;
+    :Informar el tutor académico propuesto;
+    stop
+
+  else (No)
+    :Informar que no existen tutores
+    compatibles relacionados
+    con el área profesional;
+
+    :Volver al filtrado de docentes
+    por área seleccionada;
+    stop
+  endif
+
+else (No)
+  :Informar que no existen
+  docentes registrados;
+
+  :Volver a recibir la práctica
+  profesional seleccionada;
+  stop
+endif
 @enduml

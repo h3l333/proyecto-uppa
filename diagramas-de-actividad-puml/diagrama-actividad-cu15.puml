@@ -1,29 +1,51 @@
-@startuml Diagrama_Actividad_CU15
+@startuml
 title CU-15 - Notificar Alta de Práctica
 
-|Sistema|
+|Sistema de Gestión de Prácticas UPPA|
 start
-:Detectar confirmación exitosa de registro;
-fork
-  :Recuperar datos alumno;
-fork again
-  :Recuperar datos docente;
-fork again
-  :Recuperar datos responsable;
-end fork
 
-if (Datos de contacto completos?) then (Si)
-  :Redactar cuerpos de correos;
-  :Enviar correos;
-  :Validar envío exitoso;
-  if (Envío exitoso?) then (Si)
-    :Registrar en log envíos;
+:Detectar confirmación del registro
+exitoso de una nueva práctica;
+
+:Recuperar datos de contacto y nombres
+del alumno, tutor y responsable;
+
+if (¿Datos de contacto completos?) then (Sí)
+  :Redactar correos utilizando
+  plantillas predefinidas;
+
+  |Sistema de Correo Electrónico|
+  :Enviar correos simultáneamente
+  a los tres destinatarios;
+
+  if (¿Correos enviados correctamente?) then (Sí)
+    |Sistema de Gestión de Prácticas UPPA|
+    :Registrar en el log de la práctica
+    la fecha y hora del envío;
+
+    stop
+
   else (No)
-    :Informar sobre falla al administrador;
+    :Detectar fallo en el envío;
+
+    |Administrador del Sistema|
+    :Recibir notificación del fallo;
+
+    stop
   endif
+
 else (No)
-  :Notificar falta de datos al administrador del sistema;
+  :Identificar destinatario(s)
+  con datos de contacto incompletos;
+
+  :Cancelar envío para el destinatario
+  con datos incompletos;
+
+  |Administrador del Sistema|
+  :Recibir notificación sobre la falta
+  de datos de contacto;
+
+  stop
 endif
-stop
 
 @enduml

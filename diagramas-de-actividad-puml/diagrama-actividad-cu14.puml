@@ -1,20 +1,42 @@
-@startuml Diagrama_Actividad_CU14
+@startuml
 title CU-14 - Seleccionar Responsable Compatible
 
-|Sistema|
+|Sistema de Gestión de Prácticas UPPA|
 start
-:Recibir práctica profesional seleccionada;
-:Verificar existencia de responsables registrados;
-if (Responsables registrados existentes?) then (Si)
-  :Filtrar responsables por área;
-  if (Existen responsables afines?) then (Si)
+
+:Recibir la práctica profesional
+seleccionada por el alumno;
+
+:Cargar responsables registrados
+asociados a la empresa;
+
+if (¿Existen responsables registrados?) then (Sí)
+
+  :Filtrar responsables con conocimientos
+  afines al área profesional;
+
+  if (¿Existen responsables compatibles?) then (Sí)
     :Proponer responsables compatibles;
+    :Informar los responsables compatibles;
+    stop
+
   else (No)
-    :Informar falta de responsables con conocimientos afines;
+    :Informar que no existen responsables
+    con conocimientos afines
+    al área profesional;
+
+    :Volver a recibir la práctica
+    profesional seleccionada;
+    stop
   endif
+
 else (No)
-  :Informar falta de responsables registrados;
+  :Informar que no existen responsables
+  registrados para esa empresa;
+
+  :Volver a recibir la práctica
+  profesional seleccionada;
+  stop
 endif
-stop
 
 @enduml

@@ -1,37 +1,70 @@
-@startuml Diagrama_Actividad_CU05
+@startuml
 title CU-05 - Registrar Empresa
 
+|Administrador del Sistema|
 start
-:Acceder a "Registrar empresa";
+:Acceder a "Registrar Empresa";
 
-label formulario
+|Sistema|
 :Mostrar formulario de alta;
-fork
-  :Ingresar nombre empresa;
-fork again
-  :Ingresar CUIT empresa;
-fork again
-  :Ingresar rubro;
-fork again
-  :Ingresar ubicación;
-fork again
-  :Ingresar sector;
-end fork
 
-:Validar datos obligatorios completos;
-:Validar inexistencia de empresa con CUIT compartido;
-if (Datos incompletos o CUIT ya registrado?) then (Si)
-  goto formulario
+|Administrador del Sistema|
+:Ingresar datos de la empresa;
+
+|Sistema|
+:Validar datos obligatorios;
+
+while (¿Datos obligatorios completos?) is (No)
+  :Informar qué datos están incompletos;
+
+  |Administrador del Sistema|
+  :Completar información faltante;
+
+  |Sistema|
+  :Validar datos obligatorios;
+endwhile (Sí)
+
+:Validar que no exista otra empresa
+con el mismo CUIT;
+
+if (¿CUIT ya registrado?) then (Sí)
+  :Informar que ya existe una empresa
+  con ese CUIT;
+
+  |Administrador del Sistema|
+  if (¿Corregir CUIT?) then (Sí)
+    :Corregir dato del CUIT;
+
+    |Sistema|
+    :Validar que no exista otra empresa
+    con el mismo CUIT;
+
+    if (¿CUIT ya registrado?) then (Sí)
+      :Informar que ya existe una empresa
+      con ese CUIT;
+      stop
+    else (No)
+      |Administrador del Sistema|
+      :Confirmar operación;
+
+      |Sistema|
+      :Registrar empresa;
+      :Informar que el alta fue realizada correctamente;
+      stop
+    endif
+
+  else (Cancelar)
+    :Finalizar operación;
+    stop
+  endif
+
 else (No)
-endif
+  |Administrador del Sistema|
+  :Confirmar operación;
 
-:Confirmar operación;
-:Registrar empresa;
-if (Alta exitosa?) then (Si)
-  :Informar alta exitosa;
-else (No)
-  :Informar error en alta;
+  |Sistema|
+  :Registrar empresa;
+  :Informar que el alta fue realizada correctamente;
+  stop
 endif
-stop
-
 @enduml

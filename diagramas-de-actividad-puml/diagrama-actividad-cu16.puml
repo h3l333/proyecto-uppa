@@ -1,34 +1,50 @@
-@startuml Diagrama_Actividad_CU16
+@startuml
 title CU-16 - Notificar sobre Vencimiento
 
-|Sistema|
+|Sistema de Gestión de Prácticas UPPA|
 start
-:Iniciar proceso de verificación;
-fork
-  :Recuperar correo responsable;
-fork again
-  :Recuperar convenios con vencimiento próximo;
-fork again
-  :Recuperar correo administrador;
-end fork
 
-if (Convenios por vencer existentes?) then (Si)
-  :Verificar datos de contacto;
-  if (Datos existentes y válidos?) then (Si)
-    :Redactar cuerpos de correos;
-    :Enviar correos;
-    :Validar envío exitoso;
-    if (Envío exitoso?) then (Si)
-      :Registrar en log envíos;
-    else (No)
-      :Informar sobre falla al administrador;
-    endif
+:Iniciar proceso de verificación;
+
+:Recuperar convenios con
+vencimiento próximo;
+
+if (¿Existen convenios por vencer?) then (Sí)
+
+  :Recuperar correos del responsable
+  y del administrador;
+
+  :Redactar correos utilizando
+  la plantilla "Aviso de Vencimiento";
+
+  |Sistema de Correo Electrónico|
+  :Enviar notificaciones al responsable
+  y al administrador;
+
+  if (¿Envío realizado correctamente?) then (Sí)
+
+    |Sistema de Gestión de Prácticas UPPA|
+    :Registrar en el log el envío
+    de las notificaciones;
+
+    stop
+
   else (No)
-    :Informar sobre falla al administrador;
+
+    |Sistema de Gestión de Prácticas UPPA|
+    :Detectar fallo en el sistema
+    de correo electrónico;
+
+    |Administrador del Sistema|
+    :Recibir notificación sobre el fallo;
+
+    stop
   endif
+
 else (No)
-  :Notificar falta de convenios por vencer;
+  :Detectar que no hay convenios
+  por vencer;
+  stop
 endif
-stop
 
 @enduml

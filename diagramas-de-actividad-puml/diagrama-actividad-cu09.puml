@@ -1,43 +1,78 @@
-@startuml Diagrama_Actividad_CU09
+@startuml
 title CU-09 - Consultar Convenios Próximos a Vencer
 
-|Administrador|
+|Administrador del Sistema|
 start
-:Acceder a la opción Consulta de Convenios a Vencer;
+:Acceder a la opción de consulta;
 
 |Sistema|
-:Mostrar criterios y filtros de búsqueda;
+:Mostrar criterios de búsqueda y filtros;
 
-|Administrador|
-label seleccionar_criterios
-:Seleccionar criterios y filtros;
-
-|Sistema|
-:Validar datos obligatorios;
-if (Datos obligatorios válidos?) then (No)
-  |Administrador|
-  goto seleccionar_criterios
-else (Si)
-endif
+|Administrador del Sistema|
+:Ingresar uno o más criterios;
 
 |Sistema|
-:Recuperar convenios próximos a vencer;
-if (Se encontraron convenios?) then (No)
-  :Informar que no hay convenios próximos a vencer;
-  |Administrador|
-  if (Modificar parámetros?) then (Si)
-    goto seleccionar_criterios
+:Validar criterios ingresados;
+
+while (¿Parámetros válidos?) is (No)
+  :Informar error de validación;
+
+  |Administrador del Sistema|
+  :Corregir los datos;
+
+  |Sistema|
+  :Validar criterios ingresados;
+endwhile (Sí)
+
+:Recuperar convenios cuyo vencimiento
+se encuentra dentro del rango indicado;
+
+if (¿Existen convenios próximos a vencer?) then (Sí)
+  :Mostrar listado de convenios encontrados;
+
+  |Administrador del Sistema|
+  :Finalizar consulta;
+  stop
+
+else (No)
+  :Informar que no existen convenios
+  dentro del criterio indicado;
+
+  |Administrador del Sistema|
+  if (¿Modificar parámetros?) then (Sí)
+    :Modificar parámetros de búsqueda;
+
+    |Sistema|
+    :Validar criterios ingresados;
+
+    while (¿Parámetros válidos?) is (No)
+      :Informar error de validación;
+
+      |Administrador del Sistema|
+      :Corregir los datos;
+
+      |Sistema|
+      :Validar criterios ingresados;
+    endwhile (Sí)
+
+    :Recuperar convenios cuyo vencimiento
+    se encuentra dentro del rango indicado;
+
+    if (¿Existen convenios próximos a vencer?) then (Sí)
+      :Mostrar listado de convenios encontrados;
+
+      |Administrador del Sistema|
+      :Finalizar consulta;
+      stop
+    else (No)
+      :Informar que no existen convenios
+      dentro del criterio indicado;
+      stop
+    endif
+
   else (No)
+    :Finalizar operación;
     stop
   endif
-else (Si)
 endif
-
-|Sistema|
-:Mostrar convenios;
-
-|Administrador|
-:Finalizar consulta;
-stop
-
 @enduml

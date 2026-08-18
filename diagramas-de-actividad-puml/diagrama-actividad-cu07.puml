@@ -1,62 +1,73 @@
-@startuml Diagrama_Actividad_CU07
+@startuml
 title CU-07 - Asignar Responsable a Empresa
 
-|Administrador|
+|Administrador del Sistema|
 start
-:Acceder a la opción Asignar Responsable a Empresa;
+:Acceder a "Asignar Responsable a Empresa";
 
 |Sistema|
-:Informar empresas vigentes;
+:Solicitar empresa destino;
 
-|Administrador|
-label seleccionar_empresa
+|Administrador del Sistema|
 :Seleccionar empresa;
 
 |Sistema|
-:Validar empresa seleccionada;
-if (Empresa válida?) then (No)
-  :Informar empresa no válida;
-  |Administrador|
-  goto seleccionar_empresa
-else (Si)
-endif
+while (¿Empresa válida?) is (No)
+  :Informar que la empresa seleccionada
+  no es válida;
 
-:Mostrar responsables asociados;
-:Mostrar mensaje de incorporar nuevo responsable;
-if (Incorporar nuevo responsable?) then (Si)
-  |Administrador|
-  label ingresar_datos_responsable
-  :Ingresar datos del nuevo responsable;
+  |Administrador del Sistema|
+  :Seleccionar otra empresa;
+
+  |Sistema|
+endwhile (Sí)
+
+:Mostrar responsables ya asociados;
+:Mostrar opciones para incorporar
+uno nuevo o vincular uno existente;
+
+|Administrador del Sistema|
+:Ingresar o seleccionar responsable;
+:Registrar datos del responsable
+y áreas de conocimiento afines;
+
+|Sistema|
+:Validar datos obligatorios;
+
+while (¿Datos obligatorios completos?) is (No)
+  :Informar qué datos faltan completar;
+
+  |Administrador del Sistema|
+  :Corregir la carga del responsable;
 
   |Sistema|
   :Validar datos obligatorios;
-  if (Datos obligatorios válidos?) then (No)
-    |Administrador|
-    goto ingresar_datos_responsable
-  else (Si)
+endwhile (Sí)
+
+:Verificar que el responsable
+no esté asociado a la empresa;
+
+if (¿Responsable ya asociado?) then (Sí)
+  :Informar que el responsable ya se
+  encuentra vinculado a esa empresa;
+
+  |Administrador del Sistema|
+  if (¿Cancelar operación?) then (Sí)
+    :Cancelar operación;
+    stop
+  else (Mantener sin cambios)
+    :Mantener información sin cambios;
+    stop
   endif
+
 else (No)
+  |Administrador del Sistema|
+  :Confirmar operación;
+
+  |Sistema|
+  :Asociar responsable a la empresa;
+  :Informar que la asignación fue
+  realizada correctamente;
+  stop
 endif
-
-|Administrador|
-label seleccionar_responsable
-:Seleccionar responsable;
-
-|Sistema|
-:Validar responsable no asociado a la empresa;
-if (Responsable ya asociado?) then (Si)
-  :Informar responsable ya asociado a la empresa;
-  |Administrador|
-  goto seleccionar_responsable
-else (No)
-endif
-
-|Administrador|
-:Confirmar asociación;
-
-|Sistema|
-:Asociar responsable a empresa;
-:Mostrar mensaje confirmación de asociación de responsable;
-stop
-
 @enduml

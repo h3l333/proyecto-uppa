@@ -1,40 +1,66 @@
-@startuml Diagrama_Actividad_CU02
+@startuml
 title CU-02 - Generar Informe de Avance
 
+|Tutor / Responsable de Empresa|
 start
 :Acceder a "Generar Informe de Avance";
 
-label mostrar_listado
-:Mostrar listado de prácticas;
-repeat
-  :Seleccionar práctica;
-repeat while (Práctica en curso?) is (No) not (Si)
+|Sistema|
+:Mostrar listado de prácticas
+bajo su seguimiento;
 
-:Mostrar formulario;
-label formulario
-fork
-  repeat
-    :Ingresar fecha;
-  repeat while (Fecha inválida || fecha fuera del período?) is (Si) not (No)
-fork again
-  :Ingresar descripción de tareas;
-fork again
-  :Ingresar evaluación parcial;
-end fork
-:Confirmar ingresos;
-:Validar datos obligatorios;
-if (Datos obligatorios faltantes o inválidos?) then (Si)
-  goto formulario
+|Tutor / Responsable de Empresa|
+:Seleccionar una práctica;
+
+|Sistema|
+:Verificar que la práctica se encuentre
+en seguimiento operativo;
+
+if (¿Práctica en seguimiento operativo?) then (Sí)
+  :Mostrar formulario del informe;
 else (No)
+  :Informar que la práctica
+  no se encuentra en curso;
+  stop
 endif
 
-:Registrar Informe de Avance;
-if (Registro exitoso?) then (Si)
-  :Informar registro exitoso;
+|Tutor / Responsable de Empresa|
+:Ingresar fecha del informe;
+
+|Sistema|
+if (¿Fecha dentro del período de práctica?) then (Sí)
+else (No)
+  :Informar que la fecha del informe
+  no es válida;
+  
+  |Tutor / Responsable de Empresa|
+  :Corregir la fecha;
+  
+  |Sistema|
+  if (¿Fecha dentro del período de práctica?) then (Sí)
+  else (No)
+    :Informar que la fecha del informe
+    no es válida;
+    stop
+  endif
+endif
+
+|Tutor / Responsable de Empresa|
+:Ingresar descripción de las tareas realizadas;
+:Ingresar evaluación parcial;
+:Confirmar operación;
+
+|Sistema|
+:Validar datos obligatorios;
+
+if (¿Datos obligatorios completos?) then (Sí)
+  :Registrar informe de avance;
+  :Vincular informe con la práctica;
+  :Actualizar seguimiento de la práctica;
+  :Informar que el registro fue exitoso;
   stop
 else (No)
-  :Informar error;
-  goto mostrar_listado
+  :Informar datos obligatorios faltantes;
+  stop
 endif
-
 @enduml

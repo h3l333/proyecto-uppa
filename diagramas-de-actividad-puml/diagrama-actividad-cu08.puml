@@ -1,34 +1,70 @@
-@startuml Diagrama_Actividad_CU08
+@startuml
 title CU-08 - Asignar Tutor a Área Profesional
 
-|Administrador|
+|Administrador del Sistema|
 start
-:Acceder a la opción Asignar Tutor a Área Profesional;
+:Acceder a "Asignar Tutor a Área Profesional";
 
 |Sistema|
-:Mostrar tutores;
+:Mostrar listado de tutores y
+áreas profesionales disponibles;
 
-|Administrador|
-label seleccionar_tutor
+|Administrador del Sistema|
 :Seleccionar tutor;
 
 |Sistema|
-:Mostrar áreas profesionales asociadas;
+while (¿Tutor válido?) is (No)
+  :Informar que el tutor seleccionado
+  no es válido;
 
-|Administrador|
-repeat
-  :Seleccionar área profesional a asignar;
-repeat while (Asociar otra área al tutor?) is (Si) not (No)
+  |Administrador del Sistema|
+  :Corregir selección del tutor;
+
+  |Sistema|
+endwhile (Sí)
+
+|Administrador del Sistema|
+:Seleccionar una o más áreas profesionales;
 
 |Sistema|
-:Validar datos obligatorios;
-if (Datos obligatorios válidos?) then (Si)
-  :Asociar tutor a áreas profesionales;
-  :Mostrar mensaje confirmación de asociación de tutor a áreas profesionales;
-  stop
+while (¿Al menos un área seleccionada?) is (No)
+  :Informar que debe seleccionarse
+  al menos un área profesional;
+
+  |Administrador del Sistema|
+  :Seleccionar área profesional;
+
+  |Sistema|
+endwhile (Sí)
+
+:Validar información completa;
+
+if (¿Información completa?) then (Sí)
 else (No)
-  |Administrador|
-  goto seleccionar_tutor
+  :Informar que faltan datos obligatorios;
+
+  |Administrador del Sistema|
+  :Completar información;
+
+  |Sistema|
 endif
 
+:Verificar asociaciones existentes;
+
+if (¿Alguna asociación ya existe?) then (Sí)
+  :Informar que el tutor ya se encuentra
+  asociado a una o más áreas seleccionadas;
+  :Evitar duplicación de relaciones;
+endif
+
+|Administrador del Sistema|
+:Confirmar operación;
+
+|Sistema|
+:Registrar las asociaciones nuevas
+entre el tutor y las áreas profesionales;
+:Informar que la asignación fue
+realizada correctamente;
+
+stop
 @enduml

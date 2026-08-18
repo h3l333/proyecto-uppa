@@ -1,32 +1,49 @@
-@startuml Diagrama_Actividad_CU10
+@startuml
 title CU-10 - Verificar Vigencia del Convenio
 
-|Sistema|
+|Sistema de Gestión de Prácticas UPPA|
 start
-:Recibir solicitud de validación de convenio;
-:Calcular fecha de vencimiento;
-fork
-  :Comparar fecha de vencimiento con la fecha actual;
-fork again
+
+:Recibir solicitud de validación
+del convenio seleccionado;
+
+:Calcular fecha de vencimiento
+del convenio;
+
+:Comparar fecha actual con
+fecha de vencimiento;
+
+if (¿Fecha actual anterior al vencimiento?) then (Sí)
+
   :Verificar tipo de empresa;
-end fork
 
-if (Convenio vencido?) then (Si)
-  :Mostrar mensaje respecto a convenio vencido;
-else (No)
-  if (Es sector público?) then (Si)
-    :Consultar cantidad de alumnos con prácticas en curso;
-    if (Cupo superado?) then (Si)
-      :Mostrar mensaje respecto a superación de cupo;
+  if (¿Empresa del sector público?) then (Sí)
+
+    :Consultar cantidad de alumnos
+    con prácticas en curso
+    vinculadas al convenio;
+
+    if (¿Alumnos activos < cupo definido?) then (Sí)
+      :Confirmar validación del convenio;
     else (No)
-      :Confirmar fechas válidas y existencia de cupos;
-      :Habilitar continuación de registro;
+      :Bloquear registro;
+      :Mostrar mensaje de error
+      por cupo excedido;
+      stop
     endif
-  else (No)
-    :Confirmar fechas válidas y existencia de cupos;
-    :Habilitar continuación de registro;
-  endif
-endif
-stop
 
+  else (No)
+    :Confirmar validación del convenio;
+  endif
+
+  :Habilitar continuación del proceso
+  de registro de la práctica;
+  stop
+
+else (No)
+  :Bloquear registro;
+  :Mostrar mensaje de error
+  por convenio vencido;
+  stop
+endif
 @enduml
